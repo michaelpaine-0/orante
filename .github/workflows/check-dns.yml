@@ -1,0 +1,21 @@
+name: check-dns
+on:
+  workflow_dispatch:
+  push:
+    paths: [".github/workflows/check-dns.yml"]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve orante.net from public resolvers
+        run: |
+          for r in 1.1.1.1 8.8.8.8 9.9.9.9; do echo "== A orante.net @$r"; dig +short orante.net A @$r; done
+          echo "== CNAME www.orante.net @1.1.1.1"; dig +short www.orante.net CNAME @1.1.1.1
+          echo "== NS orante.net"; dig +short orante.net NS @1.1.1.1
+          echo "== SOA"; dig +short orante.net SOA @1.1.1.1
+      - name: Fetch the site
+        run: |
+          echo "== http://orante.net"; curl -sS -o /dev/null -D - http://orante.net/ | head -15 || true
+          echo "== https://orante.net"; curl -sS -o /dev/null -D - https://orante.net/ | head -15 || true
+          echo "== title"; curl -sSL http://orante.net/ | grep -o "<title>[^<]*" | head -1 || true
+          echo "== github.io"; curl -sS -o /dev/null -D - https://michaelpaine-0.github.io/orante/ | head -8 || true
