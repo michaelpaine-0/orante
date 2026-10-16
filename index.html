@@ -154,7 +154,7 @@ html,body{overflow:hidden;overscroll-behavior:none}
    ============================================================================ */
 const canvas=document.getElementById("stage"),dim=document.getElementById("dim"),hint=document.getElementById("hint");let moving=false;
 const prog={p:0};
-const STOPS=[0,.33,.66,1]; // entrance, stop 1, stop 2, altar
+const STOPS=[0,.25,.5,1]; // frame = 100%, 90%, 80%, 60% of the plate
 function stageUI(p){
   const at=i=>Math.abs(p-STOPS[i])<.05&&!moving;
   const s1=at(1)||at(2),s2=at(2);
@@ -321,7 +321,7 @@ renderPick();
    (white = near, black = far) from Depth Anything / Marigold; when null, a one-point-perspective depth is
    synthesised from the vanishing point FOCAL. The plate is a displaced mesh; scroll drives the camera
    straight down the axis toward FOCAL, so piers slide past and the altar grows: true parallax, one image. */
-const MASTER={src:"plates/master.webp",hi:"plates/master-hi.webp",aspect:6688/3764,fx:.4992,fy:.6403,depth:null,push:.78,amp:.5}; // one plate: 2.5K loads first, the 6.7K swaps in behind it; crucifix and Host share x≈.499
+const MASTER={src:"plates/master.webp",hi:"plates/master-hi.webp",aspect:6688/3764,fx:.4992,fy:.6403,depth:null,push:.40,amp:.5} // push .40: stops show 100%, 90%, 80%, 60% of the plate; // one plate: 2.5K loads first, the 6.7K swaps in behind it; crucifix and Host share x≈.499
 const CHRIST={src:"plates/christ.png",aspect:1024/1536,feet:[.5065,.925],hPlate:.11}; // x = the cross centreline in the PNG, so it sits on the altar crucifix line // feet land on the Host; cross height as a fraction of the plate height (life-size next to the bishop) // the revealed Crucified, offset from FOCAL in plate units, height as fraction of viewport
 function runDepth(M){
   let renderer;try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:"high-performance"})}catch(e){return null}
