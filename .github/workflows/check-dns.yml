@@ -3,19 +3,27 @@ on:
   workflow_dispatch:
   push:
     paths: [".github/workflows/check-dns.yml"]
+permissions:
+  contents: write
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - name: Resolve orante.net from public resolvers
+      - uses: actions/checkout@v4
+      - name: Resolve and fetch
         run: |
+          {
+          date -u
           for r in 1.1.1.1 8.8.8.8 9.9.9.9; do echo "== A orante.net @$r"; dig +short orante.net A @$r; done
-          echo "== CNAME www.orante.net @1.1.1.1"; dig +short www.orante.net CNAME @1.1.1.1
-          echo "== NS orante.net"; dig +short orante.net NS @1.1.1.1
-          echo "== SOA"; dig +short orante.net SOA @1.1.1.1
-      - name: Fetch the site
+          echo "== CNAME www @1.1.1.1"; dig +short www.orante.net CNAME @1.1.1.1
+          echo "== NS"; dig +short orante.net NS @1.1.1.1
+          echo "== http://orante.net headers"; curl -sS -o /dev/null -D - -m 20 http://orante.net/ | head -12 || true
+          echo "== https://orante.net headers"; curl -sS -o /dev/null -D - -m 20 https://orante.net/ 2>&1 | head -12 || true
+          echo "== title"; curl -sSL -m 20 http://orante.net/ | grep -o "<title>[^<]*" | head -1 || true
+          echo "== github.io headers"; curl -sS -o /dev/null -D - -m 20 https://michaelpaine-0.github.io/orante/ | head -8 || true
+          } > status/dns.txt 2>&1 || true
+          cat status/dns.txt
+      - name: Commit result
         run: |
-          echo "== http://orante.net"; curl -sS -o /dev/null -D - http://orante.net/ | head -15 || true
-          echo "== https://orante.net"; curl -sS -o /dev/null -D - https://orante.net/ | head -15 || true
-          echo "== title"; curl -sSL http://orante.net/ | grep -o "<title>[^<]*" | head -1 || true
-          echo "== github.io"; curl -sS -o /dev/null -D - https://michaelpaine-0.github.io/orante/ | head -8 || true
+          git config user.name "orante-bot"; git config user.email "bot@orante.net"
+          git add status/dns.txt; git commit -m "status: dns check" || exit 0; git push
