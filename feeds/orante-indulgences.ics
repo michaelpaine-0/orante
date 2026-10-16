@@ -1,0 +1,423 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Orante//Ordo 1962//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Orante · Indulgences
+X-WR-CALDESC:Plenary indulgences tied to dates (Enchiridion 1999). Years: 2
+ 026
+X-APPLE-CALENDAR-COLOR:#1D5C6E
+REFRESH-INTERVAL;VALUE=DURATION:P1W
+X-PUBLISHED-TTL:P1W
+BEGIN:VEVENT
+UID:ind-2026-01-01-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260101
+DTEND;VALUE=DATE:20260102
+SUMMARY:☩ Plenary: Veni Creator (1 Jan)
+DESCRIPTION:Veni Creator sung or recited publicly on 1 January.\nRef: Grant
+  26 §1 1°\nUsual conditions: sacramental confession (within ~20 days)\, 
+ Holy Communion\, prayer for the Pope's intentions\, and detachment from al
+ l sin\, even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-01-25-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260125
+DTEND;VALUE=DATE:20260126
+SUMMARY:☩ Plenary: Christian Unity week closing
+DESCRIPTION:Take part in some of the Week of Prayer for Christian Unity (18
+ –25 Jan) and attend its closing.\nRef: Grant 11 §1\nUsual conditions: s
+ acramental confession (within ~20 days)\, Holy Communion\, prayer for the 
+ Pope's intentions\, and detachment from all sin\, even venial. One plenary
+  per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-02-20-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260220
+DTEND;VALUE=DATE:20260221
+SUMMARY:☩ Plenary: En ego after Communion
+DESCRIPTION:After Communion\, recite En ego\, O bone et dulcissime Iesu bef
+ ore an image of Christ crucified.\nRef: Grant 8 §1 2° (partial on other 
+ days)\nUsual conditions: sacramental confession (within ~20 days)\, Holy C
+ ommunion\, prayer for the Pope's intentions\, and detachment from all sin\
+ , even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-02-27-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260227
+DTEND;VALUE=DATE:20260228
+SUMMARY:☩ Plenary: En ego after Communion
+DESCRIPTION:After Communion\, recite En ego\, O bone et dulcissime Iesu bef
+ ore an image of Christ crucified.\nRef: Grant 8 §1 2° (partial on other 
+ days)\nUsual conditions: sacramental confession (within ~20 days)\, Holy C
+ ommunion\, prayer for the Pope's intentions\, and detachment from all sin\
+ , even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-03-06-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260306
+DTEND;VALUE=DATE:20260307
+SUMMARY:☩ Plenary: En ego after Communion
+DESCRIPTION:After Communion\, recite En ego\, O bone et dulcissime Iesu bef
+ ore an image of Christ crucified.\nRef: Grant 8 §1 2° (partial on other 
+ days)\nUsual conditions: sacramental confession (within ~20 days)\, Holy C
+ ommunion\, prayer for the Pope's intentions\, and detachment from all sin\
+ , even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-03-13-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260313
+DTEND;VALUE=DATE:20260314
+SUMMARY:☩ Plenary: En ego after Communion
+DESCRIPTION:After Communion\, recite En ego\, O bone et dulcissime Iesu bef
+ ore an image of Christ crucified.\nRef: Grant 8 §1 2° (partial on other 
+ days)\nUsual conditions: sacramental confession (within ~20 days)\, Holy C
+ ommunion\, prayer for the Pope's intentions\, and detachment from all sin\
+ , even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-03-20-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260320
+DTEND;VALUE=DATE:20260321
+SUMMARY:☩ Plenary: En ego after Communion
+DESCRIPTION:After Communion\, recite En ego\, O bone et dulcissime Iesu bef
+ ore an image of Christ crucified.\nRef: Grant 8 §1 2° (partial on other 
+ days)\nUsual conditions: sacramental confession (within ~20 days)\, Holy C
+ ommunion\, prayer for the Pope's intentions\, and detachment from all sin\
+ , even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-03-27-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260327
+DTEND;VALUE=DATE:20260328
+SUMMARY:☩ Plenary: En ego after Communion
+DESCRIPTION:After Communion\, recite En ego\, O bone et dulcissime Iesu bef
+ ore an image of Christ crucified.\nRef: Grant 8 §1 2° (partial on other 
+ days)\nUsual conditions: sacramental confession (within ~20 days)\, Holy C
+ ommunion\, prayer for the Pope's intentions\, and detachment from all sin\
+ , even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-04-02-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260402
+DTEND;VALUE=DATE:20260403
+SUMMARY:☩ Plenary: Tantum ergo at reposition
+DESCRIPTION:Tantum ergo sung or recited at the solemn reposition of the Ble
+ ssed Sacrament.\nRef: Grant 7 §1 1°\nUsual conditions: sacramental confe
+ ssion (within ~20 days)\, Holy Communion\, prayer for the Pope's intention
+ s\, and detachment from all sin\, even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-04-03-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260403
+DTEND;VALUE=DATE:20260404
+SUMMARY:☩ Plenary: Adoration of the Cross
+DESCRIPTION:Adore the Cross in the solemn liturgical action.\nRef: Grant 13
+  §1\nUsual conditions: sacramental confession (within ~20 days)\, Holy Co
+ mmunion\, prayer for the Pope's intentions\, and detachment from all sin\,
+  even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-04-04-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260404
+DTEND;VALUE=DATE:20260405
+SUMMARY:☩ Plenary: Renew baptismal promises
+DESCRIPTION:Renew baptismal promises in the Easter Vigil (any approved form
+ ula).\nRef: Grant 28 §1\nUsual conditions: sacramental confession (within
+  ~20 days)\, Holy Communion\, prayer for the Pope's intentions\, and detac
+ hment from all sin\, even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-04-12-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260412
+DTEND;VALUE=DATE:20260413
+SUMMARY:☩ Plenary: Divine Mercy devotions
+DESCRIPTION:Divine Mercy devotions in any church or oratory (Pater\, Credo\
+ , invocation to the merciful Jesus).\nRef: Apostolic Penitentiary\, 29 Jun
+  2002\nUsual conditions: sacramental confession (within ~20 days)\, Holy C
+ ommunion\, prayer for the Pope's intentions\, and detachment from all sin\
+ , even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-05-24-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260524
+DTEND;VALUE=DATE:20260525
+SUMMARY:☩ Plenary: Veni Creator (Pentecost)
+DESCRIPTION:Veni Creator sung or recited publicly on Pentecost.\nRef: Grant
+  26 §1 1°\nUsual conditions: sacramental confession (within ~20 days)\, 
+ Holy Communion\, prayer for the Pope's intentions\, and detachment from al
+ l sin\, even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-06-04-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260604
+DTEND;VALUE=DATE:20260605
+SUMMARY:☩ Plenary: Corpus Christi procession
+DESCRIPTION:Take part devoutly in the Eucharistic procession.\nRef: Grant 7
+  §1 3°\nUsual conditions: sacramental confession (within ~20 days)\, Hol
+ y Communion\, prayer for the Pope's intentions\, and detachment from all s
+ in\, even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-06-12-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260612
+DTEND;VALUE=DATE:20260613
+SUMMARY:☩ Plenary: Act of Reparation
+DESCRIPTION:Act of Reparation (Iesu dulcissime) recited publicly.\nRef: Gra
+ nt 3\nUsual conditions: sacramental confession (within ~20 days)\, Holy Co
+ mmunion\, prayer for the Pope's intentions\, and detachment from all sin\,
+  even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-06-29-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260630
+SUMMARY:☩ Plenary: Blessed object + profession of faith
+DESCRIPTION:Devoutly use an object of piety blessed by the Pope or a bishop
+ \, adding an approved profession of faith.\nRef: Grant 14 §1\nUsual condi
+ tions: sacramental confession (within ~20 days)\, Holy Communion\, prayer 
+ for the Pope's intentions\, and detachment from all sin\, even venial. One
+  plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-08-02-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260802
+DTEND;VALUE=DATE:20260803
+SUMMARY:☩ Plenary: Portiuncula visit
+DESCRIPTION:Portiuncula: visit the parish church (or a Franciscan church)\;
+  Pater & Credo.\nRef: Grant 33 §1 2°\nUsual conditions: sacramental conf
+ ession (within ~20 days)\, Holy Communion\, prayer for the Pope's intentio
+ ns\, and detachment from all sin\, even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-10-25-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:☩ Plenary: Act of Dedication to Christ the King
+DESCRIPTION:Act of Dedication of the Human Race to Christ the King (Iesu du
+ lcissime Redemptor) recited publicly.\nRef: Grant 2\nUsual conditions: sac
+ ramental confession (within ~20 days)\, Holy Communion\, prayer for the Po
+ pe's intentions\, and detachment from all sin\, even venial. One plenary p
+ er day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-11-01-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:☩ Plenary: Cemetery visit for the dead
+DESCRIPTION:Visit a cemetery and pray\, even only mentally\, for the dead (
+ 1–8 Nov). Applicable only to the souls in Purgatory.\nRef: Grant 29 §1 
+ 1°\nUsual conditions: sacramental confession (within ~20 days)\, Holy Com
+ munion\, prayer for the Pope's intentions\, and detachment from all sin\, 
+ even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-11-02-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:☩ Plenary: Cemetery visit for the dead
+DESCRIPTION:Visit a cemetery and pray\, even only mentally\, for the dead (
+ 1–8 Nov). Applicable only to the souls in Purgatory.\nRef: Grant 29 §1 
+ 1°\nUsual conditions: sacramental confession (within ~20 days)\, Holy Com
+ munion\, prayer for the Pope's intentions\, and detachment from all sin\, 
+ even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-11-02-1@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:☩ Plenary: Church visit for the dead
+DESCRIPTION:Visit a church or oratory\; Pater & Credo. Applicable only to t
+ he souls in Purgatory.\nRef: Grant 29 §1 2°\nUsual conditions: sacrament
+ al confession (within ~20 days)\, Holy Communion\, prayer for the Pope's i
+ ntentions\, and detachment from all sin\, even venial. One plenary per day
+ .
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-11-03-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:☩ Plenary: Cemetery visit for the dead
+DESCRIPTION:Visit a cemetery and pray\, even only mentally\, for the dead (
+ 1–8 Nov). Applicable only to the souls in Purgatory.\nRef: Grant 29 §1 
+ 1°\nUsual conditions: sacramental confession (within ~20 days)\, Holy Com
+ munion\, prayer for the Pope's intentions\, and detachment from all sin\, 
+ even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-11-04-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:☩ Plenary: Cemetery visit for the dead
+DESCRIPTION:Visit a cemetery and pray\, even only mentally\, for the dead (
+ 1–8 Nov). Applicable only to the souls in Purgatory.\nRef: Grant 29 §1 
+ 1°\nUsual conditions: sacramental confession (within ~20 days)\, Holy Com
+ munion\, prayer for the Pope's intentions\, and detachment from all sin\, 
+ even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-11-05-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20261106
+SUMMARY:☩ Plenary: Cemetery visit for the dead
+DESCRIPTION:Visit a cemetery and pray\, even only mentally\, for the dead (
+ 1–8 Nov). Applicable only to the souls in Purgatory.\nRef: Grant 29 §1 
+ 1°\nUsual conditions: sacramental confession (within ~20 days)\, Holy Com
+ munion\, prayer for the Pope's intentions\, and detachment from all sin\, 
+ even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-11-06-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:☩ Plenary: Cemetery visit for the dead
+DESCRIPTION:Visit a cemetery and pray\, even only mentally\, for the dead (
+ 1–8 Nov). Applicable only to the souls in Purgatory.\nRef: Grant 29 §1 
+ 1°\nUsual conditions: sacramental confession (within ~20 days)\, Holy Com
+ munion\, prayer for the Pope's intentions\, and detachment from all sin\, 
+ even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-11-07-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:☩ Plenary: Cemetery visit for the dead
+DESCRIPTION:Visit a cemetery and pray\, even only mentally\, for the dead (
+ 1–8 Nov). Applicable only to the souls in Purgatory.\nRef: Grant 29 §1 
+ 1°\nUsual conditions: sacramental confession (within ~20 days)\, Holy Com
+ munion\, prayer for the Pope's intentions\, and detachment from all sin\, 
+ even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-11-08-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:☩ Plenary: Cemetery visit for the dead
+DESCRIPTION:Visit a cemetery and pray\, even only mentally\, for the dead (
+ 1–8 Nov). Applicable only to the souls in Purgatory.\nRef: Grant 29 §1 
+ 1°\nUsual conditions: sacramental confession (within ~20 days)\, Holy Com
+ munion\, prayer for the Pope's intentions\, and detachment from all sin\, 
+ even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+BEGIN:VEVENT
+UID:ind-2026-12-31-0@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:☩ Plenary: Te Deum (31 Dec)
+DESCRIPTION:Te Deum sung or recited publicly in thanksgiving.\nRef: Grant 2
+ 6 §1 2°\nUsual conditions: sacramental confession (within ~20 days)\, Ho
+ ly Communion\, prayer for the Pope's intentions\, and detachment from all 
+ sin\, even venial. One plenary per day.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/Indulgences
+END:VEVENT
+END:VCALENDAR

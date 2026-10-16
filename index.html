@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Orante: the traditional Catholic liturgical year in the calendar you already use.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Ctext y=%2226%22 x=%224%22 font-size=%2228%22 fill=%22%23c9a24a%22%3E%E2%9C%9D%3C/text%3E%3C/svg%3E">
+<style>[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Orante Nave</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;1,300;1,400&display=swap">
+<style>
+/* Layout: a fixed full-screen stage (WebGL or frame-canvas) behind a 600vh scroll track; CTA card fixed and faded in at the altar. Single dark theme. */
+:root{--vault:#070605;--parchment:#eadfc9;--dim:#b7aa92;--gold:#c9a24a;--gold-2:#efd48a;--font-caps:"Cinzel",Georgia,serif;--font-display:"Cormorant Garamond",Georgia,serif;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--vault);color:var(--parchment);font-family:var(--font-display);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--vault)}
+#track{display:none}
+html,body{overflow:hidden;overscroll-behavior:none}
+#stage{position:fixed;inset:0;width:100%;height:100%;display:block;background:var(--vault)}
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:4;display:block}
+#dim{position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 55%,rgba(0,0,0,0) 0%,rgba(0,0,0,.55) 100%),rgba(5,4,3,.35);opacity:0;pointer-events:none}
+.brand{position:fixed;top:calc(18px + env(safe-area-inset-top,0px));left:max(18px,env(safe-area-inset-left,0px));font-family:"Cormorant",Garamond,serif;font-style:italic;font-weight:300;letter-spacing:.2em;font-size:22px;color:#fff;z-index:5}
+.hint{position:fixed;left:50%;top:calc(64px + env(safe-area-inset-top,0px));transform:translateX(-50%);font-family:"Cormorant",Garamond,serif;font-style:italic;font-weight:300;font-size:18px;letter-spacing:.12em;color:#fff;z-index:5;transition:opacity .4s}
+.hint i{display:block;width:1px;height:28px;margin:8px auto 0;background:linear-gradient(#fff,transparent)}
+.hint{bottom:auto}
+/* overlay: words at each stop (left/right), CTA at the last stop. Text-only, Times italic. */
+#overlay{position:fixed;inset:0;z-index:6;pointer-events:none;font-family:"Cormorant","Cormorant Garamond",Garamond,"Times New Roman",serif;font-style:italic;font-weight:300}
+.word{position:absolute;top:50%;transform:translateY(-50%) translateX(0);font-size:clamp(48px,7.5vw,120px);line-height:1;color:#fff;font-weight:300;text-shadow:0 2px 24px rgba(0,0,0,.7);opacity:0;transition:opacity .9s ease,transform .9s ease;letter-spacing:.03em}
+.word.left{left:max(6vw,env(safe-area-inset-left,0px));top:46%;transform:translateY(-50%) translateX(-24px)}
+.word.right{right:max(6vw,env(safe-area-inset-right,0px));top:46%;transform:translateY(-50%) translateX(24px)}
+.word.show{opacity:1;transform:translateY(-50%) translateX(0)}
+@media (max-width:860px){.word{font-size:clamp(30px,10vw,56px)}.word.left{top:34%}.word.right{top:52%}}
+.pane{position:absolute;inset:0;display:grid;place-items:center;padding:0 18px;opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease;pointer-events:none}
+.pane.show{opacity:1;transform:none}
+.pane.show .btn{pointer-events:auto}
+.card{padding:0;min-width:0;max-width:760px;text-shadow:0 2px 24px rgba(0,0,0,.7)}
+.card .caps{font-size:18px;letter-spacing:.18em;color:#fff;display:block;font-weight:300}
+.card h2{font-family:"Times New Roman",Times,serif;font-weight:400;font-style:italic;font-size:clamp(26px,2.6vw,36px);line-height:1.1;margin:8px 0 10px;text-wrap:balance;color:var(--parchment)}
+.card p{margin:0 0 10px;color:var(--parchment);font-size:17px;line-height:1.45}
+#cta{text-align:center;padding:0 10px}
+#cta h1{font-weight:300;font-style:italic;font-size:clamp(32px,4.2vw,60px);line-height:1.05;margin:8px 0 20px;text-wrap:balance;color:#fff;letter-spacing:.02em}
+#cta p{font-size:18px;margin-bottom:22px}
+.btn{display:inline-block;font-family:Arial,Helvetica,sans-serif;font-style:normal;font-size:15px;letter-spacing:.06em;min-height:48px;min-width:160px;padding:14px 34px;background:#fff;color:#000;text-decoration:none;border-radius:999px;cursor:pointer;border:0;box-shadow:0 8px 30px rgba(0,0,0,.35);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 12px 36px rgba(0,0,0,.45)}
+.btn:active{transform:translateY(0)}
+.btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.sub{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+/* modal: centred sheet on desktop, bottom sheet on phones; one primary action; 44px targets */
+#modal{position:fixed;inset:0;z-index:20;display:none;place-items:center;background:rgba(0,0,0,.45);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:16px;font-family:Arial,Helvetica,sans-serif;font-style:normal;color:#000}
+#modal.open{display:grid}
+.boxwrap{position:relative;width:min(92vw,440px)}
+.box{background:#fff;color:#000;border-radius:16px;max-height:calc(100vh - 32px);overflow:auto;padding:28px 26px 22px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.box h3{font:600 22px/1.2 Arial,Helvetica,sans-serif;margin:0 0 6px;padding-right:36px}
+.box p{margin:0 0 16px;font-size:14px;line-height:1.45;color:#555}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#f1f1f1;border-radius:10px;padding:4px;margin-bottom:14px}
+.seg button{font:14px Arial,Helvetica,sans-serif;border:0;background:transparent;padding:10px;border-radius:8px;cursor:pointer;color:#333;min-height:44px}
+.seg button.on{background:#000;color:#fff}
+.opts{display:grid;gap:4px;margin-bottom:6px}
+.opts[hidden]{display:none}
+.opt{display:flex;align-items:center;gap:12px;padding:10px 8px;border-radius:10px;font-size:15px;cursor:pointer;min-height:44px}
+.opt:hover{background:#f5f5f5}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.opt .bx{width:22px;height:22px;border:2px solid #222;border-radius:6px;flex:none;display:grid;place-items:center;background:#fff;transition:background .15s}
+.opt .bx::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px);opacity:0}
+.opt input:checked+.bx{background:#000;border-color:#000}
+.opt input:checked+.bx::after{opacity:1}
+.opt input:focus-visible+.bx{outline:2px solid #000;outline-offset:2px}
+.opt{position:relative}
+.opt small{color:#777;margin-left:auto;font-size:12px}
+.acts{display:grid;gap:8px;margin-top:14px}
+.acts a{font:600 15px Arial,Helvetica,sans-serif;background:#000;color:#fff;padding:14px 16px;text-decoration:none;border-radius:999px;text-align:center;min-height:48px;display:grid;place-items:center}
+.acts a.alt{background:#fff;color:#000;border:1px solid #ddd;font-weight:400}
+.acts a[aria-disabled="true"]{opacity:.4;pointer-events:none}
+.other{margin-top:10px;font-size:13px;color:#555;text-align:center}
+.other button{font:13px Arial,Helvetica,sans-serif;background:none;border:0;color:#000;text-decoration:underline;cursor:pointer;padding:6px}
+.links[hidden]{display:none}
+.link{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin-top:8px;font-size:12px}
+.link code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:#333;overflow-wrap:anywhere;min-width:0}
+.mini{font:12px Arial,Helvetica,sans-serif;padding:8px 10px;border:1px solid #000;background:#fff;color:#000;cursor:pointer;border-radius:6px;min-height:36px}
+.close{position:absolute;right:10px;top:10px;width:44px;height:44px;font:20px Arial;background:none;border:0;cursor:pointer;color:#000;border-radius:50%;z-index:1}
+.close:hover{background:#f1f1f1}
+@media (max-width:600px){#modal{place-items:end center;padding:0}.boxwrap{width:100%}.box{border-radius:18px 18px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:88vh}}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#000;color:#fff;font:12px Arial,Helvetica,sans-serif;padding:10px 16px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+.toast.show{opacity:1}
+#fallback{position:fixed;inset:0;display:none;place-items:center;text-align:center;padding:24px;color:var(--dim);font-size:18px}
+</style>
+
+<div class="brand">Orante</div>
+<canvas id="stage" aria-label="A painted walk down the nave of St John Lateran toward the altar"></canvas>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="dim"></div>
+<div id="fallback"><p>Your browser could not start WebGL. The calendar is still here: <a href="#feeds" style="color:var(--gold-2)">choose your layers</a>.</p></div>
+<div class="hint" id="hint">Scroll to enter<i></i></div>
+<div id="track"></div>
+<div id="overlay">
+  <div class="word left" id="w1">Feasts</div>
+  <div class="word right" id="w2">Fasts</div>
+  <div class="word left" id="w3">Holy Days</div>
+  <div class="word right" id="w4">Indulgences</div>
+  <div class="pane" id="center"><div class="card" id="cta">
+    <span class="caps">Orante</span>
+    <h1>Pray Without Ceasing</h1>
+    <button class="btn" id="openModal" type="button">Start</button>
+  </div></div>
+</div>
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle2"><div class="boxwrap"><div class="box">
+  <button class="close" id="closeModal" aria-label="Close">×</button>
+  <h3 id="mtitle2">Pray With Ease</h3>
+  <p>Orante integrates the traditional Catholic liturgical year with your existing routine. No apps, downloads, or new calendars.</p>
+  <div class="seg" role="tablist"><button type="button" class="on" id="segAll" role="tab" aria-selected="true">Everything</button><button type="button" id="segPick" role="tab" aria-selected="false">Choose layers</button></div>
+  <div class="opts" id="opts" hidden>
+    <label class="opt"><input type="checkbox" data-k="feasts" checked><span class="bx"></span> Feasts <small>365 days</small></label>
+    <label class="opt"><input type="checkbox" data-k="fasts" checked><span class="bx"></span> Fasts <small>93 days</small></label>
+    <label class="opt"><input type="checkbox" data-k="holydays" checked><span class="bx"></span> Holy days <small>9 days</small></label>
+    <label class="opt"><input type="checkbox" data-k="indulgences" checked><span class="bx"></span> Indulgences <small>28 grants</small></label>
+  </div>
+  <div class="acts"><a id="ctaBtn" href="#">Add to Apple Calendar</a><a id="btnGoogle" class="alt" href="#" target="_blank" rel="noopener">Add to Google Calendar</a><a id="btnOutlook" class="alt" href="#" target="_blank" rel="noopener">Add to Outlook</a></div>
+  <div class="other"><button type="button" id="showLinks">Other app? Copy the address</button></div>
+  <div class="links" id="links" hidden></div>
+</div></div></div>
+<div class="toast" id="toast">Copied</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ============================================================================
+   ORANTE NAVE — scroll-driven dolly to the Altar of Repose
+   Two engines share one scroll timeline:
+     Method B (default, no assets): procedural 3D nave in Three.js, camera scrubbed by GSAP ScrollTrigger.
+     Method A (optional): photographic frame sequence scrubbed on a 2D canvas.
+       Enable by defining window.ORANTE_FRAMES before this script, e.g.
+         window.ORANTE_FRAMES = { count: 240, path: "frames/nave_{i}.jpg", pad: 4 };
+       Frames: frames/nave_0001.jpg … nave_0240.jpg, 1920×1080 (or 1440×1920 for a mobile set via `mobilePath`),
+       JPEG q≈80, ~150–250 KB each, same exposure/white balance throughout, final 15% of frames
+       holding still on the altar so the CTA lands on a static plate.
+   ============================================================================ */
+const canvas=document.getElementById("stage"),dim=document.getElementById("dim"),hint=document.getElementById("hint");let moving=false;
+const prog={p:0};
+const STOPS=[0,.33,.66,1]; // entrance, stop 1, stop 2, altar
+function stageUI(p){
+  const at=i=>Math.abs(p-STOPS[i])<.05&&!moving;
+  document.getElementById("w1").classList.toggle("show",at(1));document.getElementById("w2").classList.toggle("show",at(1));
+  document.getElementById("w3").classList.toggle("show",at(2));document.getElementById("w4").classList.toggle("show",at(2));
+  const end=p>.97&&!moving;document.getElementById("center").classList.toggle("show",end);dim.style.opacity=end?.35:0;;hint.style.opacity=p<.04?1:0;
+}
+
+/* ---------------- Method A: frame scrubber ---------------- */
+function runFrames(cfg){
+  const ctx=canvas.getContext("2d");const pad=cfg.pad||4;const imgs=[];let loaded=0;
+  const portrait=innerHeight>innerWidth;const path=(portrait&&cfg.mobilePath)?cfg.mobilePath:cfg.path;
+  for(let i=1;i<=cfg.count;i++){const im=new Image();im.src=path.replace("{i}",String(i).padStart(pad,"0"));im.onload=()=>{loaded++;if(i===1)draw(0)};imgs.push(im)}
+  function size(){canvas.width=innerWidth*devicePixelRatio;canvas.height=innerHeight*devicePixelRatio;draw(prog.p)}
+  function draw(p){const im=imgs[Math.min(cfg.count-1,Math.round(p*(cfg.count-1)))];if(!im||!im.complete||!im.naturalWidth)return;
+    const W=canvas.width,H=canvas.height,s=Math.max(W/im.naturalWidth,H/im.naturalHeight);const w=im.naturalWidth*s,h=im.naturalHeight*s;ctx.drawImage(im,(W-w)/2,(H-h)/2,w,h)}
+  addEventListener("resize",size);size();
+  return {update:p=>draw(p)};
+}
+
+/* ---------------- Method B: procedural nave ---------------- */
+function runThree(){
+  let renderer;try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:"high-performance"})}catch(e){return null}
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0x070605);scene.fog=new THREE.FogExp2(0x0a0806,0.022);
+  const camera=new THREE.PerspectiveCamera(55,1,0.1,400);
+  const NAVE_LEN=100,HALF_W=7,WALL_X=11,COL_H=15,BAY=8;const ALTAR_Z=-NAVE_LEN-2;
+
+  // --- textures (procedural) ---
+  const tex=(w,h,fn)=>{const c=document.createElement("canvas");c.width=w;c.height=h;fn(c.getContext("2d"),w,h);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t};
+  const floorTex=tex(512,512,(g,w,h)=>{for(let y=0;y<8;y++)for(let x=0;x<8;x++){const k=(x+y)%2;g.fillStyle=k?"#2a241e":"#171310";g.fillRect(x*64,y*64,64,64);g.fillStyle="rgba(255,255,255,.03)";for(let i=0;i<30;i++)g.fillRect(x*64+Math.random()*64,y*64+Math.random()*64,1,1)}});
+  floorTex.wrapS=floorTex.wrapT=THREE.RepeatWrapping;floorTex.repeat.set(4,30);
+  const stoneTex=tex(256,256,(g,w,h)=>{g.fillStyle="#3a3129";g.fillRect(0,0,w,h);g.strokeStyle="rgba(0,0,0,.35)";for(let y=0;y<h;y+=32){g.beginPath();g.moveTo(0,y);g.lineTo(w,y);g.stroke();for(let x=((y/32)%2)*32;x<w;x+=64){g.beginPath();g.moveTo(x,y);g.lineTo(x,y+32);g.stroke()}}for(let i=0;i<1500;i++){g.fillStyle="rgba(255,255,255,"+(Math.random()*.05)+")";g.fillRect(Math.random()*w,Math.random()*h,2,2)}});
+  stoneTex.wrapS=stoneTex.wrapT=THREE.RepeatWrapping;stoneTex.repeat.set(3,2);
+  const glassTex=tex(256,512,(g,w,h)=>{const cols=["#1f3fa0","#8d1f23","#c9a24a","#2c7a4a","#6b4a9c","#1f3fa0","#8d1f23"];for(let y=0;y<h;y+=32)for(let x=0;x<w;x+=32){g.fillStyle=cols[(x/32+y/32*3)%cols.length];g.fillRect(x,y,32,32)}g.strokeStyle="#0a0806";g.lineWidth=4;for(let y=0;y<=h;y+=32){g.beginPath();g.moveTo(0,y);g.lineTo(w,y);g.stroke()}for(let x=0;x<=w;x+=32){g.beginPath();g.moveTo(x,0);g.lineTo(x,h);g.stroke()}
+    // pointed arch mask
+    g.globalCompositeOperation="destination-in";g.fillStyle="#000";g.beginPath();g.moveTo(0,h);g.lineTo(0,110);g.quadraticCurveTo(0,0,w/2,0);g.quadraticCurveTo(w,0,w,110);g.lineTo(w,h);g.closePath();g.fill()});
+  const rayTex=tex(64,512,(g,w,h)=>{const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,"rgba(255,230,170,.0)");gr.addColorStop(.15,"rgba(255,230,170,.35)");gr.addColorStop(1,"rgba(255,230,170,0)");g.fillStyle=gr;g.fillRect(0,0,w,h);const gx=g.createLinearGradient(0,0,w,0);gx.addColorStop(0,"rgba(0,0,0,1)");gx.addColorStop(.5,"rgba(0,0,0,0)");gx.addColorStop(1,"rgba(0,0,0,1)");g.globalCompositeOperation="destination-out";g.fillStyle=gx;g.fillRect(0,0,w,h)});
+
+  const stone=new THREE.MeshStandardMaterial({map:stoneTex,color:0x8c7f70,roughness:.95,metalness:0});
+  const stoneDark=new THREE.MeshStandardMaterial({map:stoneTex,color:0x5b5248,roughness:1});
+  const wood=new THREE.MeshStandardMaterial({color:0x3b2415,roughness:.7});
+  const gold=new THREE.MeshStandardMaterial({color:0xd4a94a,roughness:.25,metalness:.9,emissive:0x3a2a08,emissiveIntensity:.4});
+  const cloth=new THREE.MeshStandardMaterial({color:0xe8e1d0,roughness:.9});
+
+  // floor & ceiling
+  const floor=new THREE.Mesh(new THREE.PlaneGeometry(WALL_X*2+2,NAVE_LEN+30),new THREE.MeshStandardMaterial({map:floorTex,roughness:.35,metalness:.1}));
+  floor.rotation.x=-Math.PI/2;floor.position.set(0,0,-NAVE_LEN/2);scene.add(floor);
+  const ceil=new THREE.Mesh(new THREE.PlaneGeometry(WALL_X*2+2,NAVE_LEN+30),new THREE.MeshStandardMaterial({color:0x1b1613,roughness:1}));
+  ceil.rotation.x=Math.PI/2;ceil.position.set(0,COL_H+9,-NAVE_LEN/2);scene.add(ceil);
+  // side walls
+  [-1,1].forEach(s=>{const w=new THREE.Mesh(new THREE.PlaneGeometry(NAVE_LEN+30,COL_H+9),stoneDark);w.rotation.y=s>0?-Math.PI/2:Math.PI/2;w.position.set(s*WALL_X,(COL_H+9)/2,-NAVE_LEN/2);scene.add(w)});
+  // entrance: back wall with door opening (camera starts just inside)
+  const back=new THREE.Mesh(new THREE.PlaneGeometry(WALL_X*2+2,COL_H+9),stoneDark);back.position.set(0,(COL_H+9)/2,6);back.rotation.y=Math.PI;scene.add(back);
+  [-1,1].forEach(s=>{const jamb=new THREE.Mesh(new THREE.BoxGeometry(2,12,2),stone);jamb.position.set(s*4.5,6,4.5);scene.add(jamb)});
+  const lintel=new THREE.Mesh(new THREE.TorusGeometry(4.5,1,10,32,Math.PI),stone);lintel.position.set(0,12,4.5);scene.add(lintel);
+
+  // columns, arches, vault ribs, windows, rays
+  const colGeo=new THREE.CylinderGeometry(.9,1,COL_H,18);const capGeo=new THREE.BoxGeometry(2.4,.8,2.4);
+  const archGeo=new THREE.TorusGeometry(BAY/2,.35,10,32,Math.PI);const transGeo=new THREE.TorusGeometry(HALF_W,.35,10,40,Math.PI);
+  const winGeo=new THREE.PlaneGeometry(3.2,7.5);const rayGeo=new THREE.PlaneGeometry(4,22);
+  const glassMat=new THREE.MeshBasicMaterial({map:glassTex,transparent:true,side:THREE.DoubleSide});
+  const rayMat=new THREE.MeshBasicMaterial({map:rayTex,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
+  const rays=[];
+  for(let i=0;i<=NAVE_LEN/BAY;i++){const z=-i*BAY;
+    [-1,1].forEach(s=>{
+      const c=new THREE.Mesh(colGeo,stone);c.position.set(s*HALF_W,COL_H/2,z);scene.add(c);
+      const cap=new THREE.Mesh(capGeo,stone);cap.position.set(s*HALF_W,COL_H+.4,z);scene.add(cap);
+      const base=new THREE.Mesh(capGeo,stone);base.position.set(s*HALF_W,.4,z);scene.add(base);
+      if(i<NAVE_LEN/BAY){const a=new THREE.Mesh(archGeo,stone);a.position.set(s*HALF_W,COL_H+.8,z-BAY/2);a.rotation.y=Math.PI/2;scene.add(a);
+        // window + rays in the wall beyond the aisle
+        const w=new THREE.Mesh(winGeo,glassMat);w.position.set(s*(WALL_X-.05),11,z-BAY/2);w.rotation.y=s>0?-Math.PI/2:Math.PI/2;scene.add(w);
+        const wl=new THREE.PointLight(0x9fb4ff,2.2,16,2);wl.position.set(s*(WALL_X-1.5),10,z-BAY/2);scene.add(wl);
+        for(let k=0;k<2;k++){const r=new THREE.Mesh(rayGeo,rayMat);r.position.set(s*(WALL_X-5-k*2),8,z-BAY/2+k*1.5);r.rotation.z=s*0.62;r.rotation.y=s*0.35;r.material=rayMat.clone();r.material.opacity=.55-k*.15;scene.add(r);rays.push(r)}}
+    });
+    const t=new THREE.Mesh(transGeo,stone);t.position.set(0,COL_H+.8,z);scene.add(t); // transverse rib
+    [-1,1].forEach(s=>{const rib=new THREE.Mesh(new THREE.TorusGeometry(Math.hypot(HALF_W,BAY/2),.22,8,48,Math.PI),stoneDark);rib.position.set(0,COL_H+.8,z-BAY/2);rib.rotation.y=Math.atan2(BAY/2,HALF_W)*s;scene.add(rib)});
+  }
+  // pews
+  const pewGeo=new THREE.BoxGeometry(4.6,1,.35),seatGeo=new THREE.BoxGeometry(4.6,.12,1.2);
+  for(let z=-8;z>-NAVE_LEN+14;z-=2.2)[-1,1].forEach(s=>{const b=new THREE.Mesh(pewGeo,wood);b.position.set(s*3.8,.6,z);scene.add(b);const st=new THREE.Mesh(seatGeo,wood);st.position.set(s*3.8,.5,z+.6);scene.add(st)});
+  // sanctuary: steps, altar of repose, tabernacle, canopy, candles, apse
+  const stepsZ=ALTAR_Z+10;
+  for(let i=0;i<3;i++){const st=new THREE.Mesh(new THREE.BoxGeometry(14-i,.35,10-i*2),new THREE.MeshStandardMaterial({color:0xd8cfbf,roughness:.5}));st.position.set(0,.175+i*.35,stepsZ-i);scene.add(st)}
+  const altar=new THREE.Mesh(new THREE.BoxGeometry(5.2,1.4,1.6),new THREE.MeshStandardMaterial({color:0xcfc7b8,roughness:.4}));altar.position.set(0,1.75,ALTAR_Z+4.5);scene.add(altar);
+  const frontal=new THREE.Mesh(new THREE.PlaneGeometry(5.2,1.4),cloth);frontal.position.set(0,1.75,ALTAR_Z+5.31);scene.add(frontal);
+  const tab=new THREE.Mesh(new THREE.BoxGeometry(1.1,1.3,1),gold);tab.position.set(0,3.1,ALTAR_Z+4.3);scene.add(tab);
+  const veil=new THREE.Mesh(new THREE.PlaneGeometry(1.3,1.5),cloth);veil.position.set(0,3.1,ALTAR_Z+4.82);scene.add(veil);
+  // reredos / canopy columns
+  [-1,1].forEach(s=>{const p=new THREE.Mesh(new THREE.CylinderGeometry(.3,.3,9,12),gold);p.position.set(s*3.4,4.5,ALTAR_Z+2.5);scene.add(p)});
+  const canopy=new THREE.Mesh(new THREE.BoxGeometry(8,.6,3),gold);canopy.position.set(0,9.3,ALTAR_Z+2.5);scene.add(canopy);
+  const crossV=new THREE.Mesh(new THREE.BoxGeometry(.25,3,.25),gold),crossH=new THREE.Mesh(new THREE.BoxGeometry(1.6,.25,.25),gold);crossV.position.set(0,5.4,ALTAR_Z+4.2);crossH.position.set(0,6.2,ALTAR_Z+4.2);scene.add(crossV,crossH);
+  // apse wall + great window
+  const apse=new THREE.Mesh(new THREE.CylinderGeometry(WALL_X,WALL_X,COL_H+9,32,1,true,Math.PI/2,Math.PI),stoneDark);apse.material=stoneDark.clone();apse.material.side=THREE.BackSide;apse.position.set(0,(COL_H+9)/2,ALTAR_Z);scene.add(apse);
+  const big=new THREE.Mesh(new THREE.PlaneGeometry(7,15),glassMat);big.position.set(0,12,ALTAR_Z-WALL_X+.4);scene.add(big);
+  const apseLight=new THREE.PointLight(0xffd9a0,6,40,1.6);apseLight.position.set(0,6,ALTAR_Z+2);scene.add(apseLight);
+  // candles (flicker)
+  const candles=[];const flame=new THREE.MeshBasicMaterial({color:0xffe2a0});
+  const pos=[];for(let i=0;i<6;i++)pos.push([-2.3+i*.92,2.85,ALTAR_Z+4.2]);[[-6,1,ALTAR_Z+9],[6,1,ALTAR_Z+9],[-5.5,1,ALTAR_Z+13],[5.5,1,ALTAR_Z+13]].forEach(p=>pos.push(p));
+  pos.forEach(p=>{const stick=new THREE.Mesh(new THREE.CylinderGeometry(.06,.08,p[1]>2?.9:2.2,8),gold);stick.position.set(p[0],p[1]>2?p[1]-.45:p[1]+1.1,p[2]);scene.add(stick);
+    const f=new THREE.Mesh(new THREE.SphereGeometry(.11,8,8),flame);f.position.set(p[0],p[1]>2?p[1]+.1:p[1]+2.3,p[2]);scene.add(f);
+    const l=new THREE.PointLight(0xffb060,1.2,9,2);l.position.copy(f.position);scene.add(l);candles.push({l,f,ph:Math.random()*10})});
+  // ambient / fill
+  scene.add(new THREE.AmbientLight(0x4a4038,.9));const hemi=new THREE.HemisphereLight(0x5a6a9a,0x1a1410,.35);scene.add(hemi);
+
+  // camera path (eased per stage): z from 2 (inside the door) to ALTAR_Z+13 (foot of the steps)
+  const zStart=2,zEnd=ALTAR_Z+13;
+  function camAt(p){
+    // piecewise: stage speeds — entrance slow, nave steady, chancel decelerating, halt
+    let d; if(p<.25)d=(p/.25)*.14; else if(p<.6)d=.14+((p-.25)/.35)*.56; else if(p<.85){const t=(p-.6)/.25;d=.70+(1-Math.pow(1-t,2))*.285} else d=.985+((p-.85)/.15)*.015;
+    camera.position.z=zStart+(zEnd-zStart)*d;
+    camera.position.y=5.2-d*1.6; // settle to eye height
+    camera.position.x=Math.sin(d*Math.PI)*.4; // faint drift
+    camera.lookAt(0,4.2-d*.8,camera.position.z-30);
+    camera.fov=(innerHeight>innerWidth?72:55)-d*8;camera.updateProjectionMatrix();
+  }
+  function size(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camAt(prog.p)}
+  addEventListener("resize",size);size();
+  let t0=performance.now();
+  (function loop(now){requestAnimationFrame(loop);const t=(now-t0)/1000;candles.forEach(c=>{const k=.85+.25*Math.sin(t*9+c.ph)*Math.sin(t*3.7+c.ph*2);c.l.intensity=1.2*k;c.f.scale.setScalar(.9+.2*k)});apseLight.intensity=5.6+.5*Math.sin(t*2.3);rays.forEach((r,i)=>r.material.opacity=(.45-(i%2)*.12)+.08*Math.sin(t*.6+i));renderer.render(scene,camera)})(t0);
+  return {update:p=>camAt(p)};
+}
+
+
+/* ---------------- Subscribe modal: feed picker (default: all) ---------------- */
+const FEED_BASE="https://orante.net/feeds/"; // replace when hosted
+const LAYERS={feasts:"Orante · Feasts",fasts:"Orante · Fasts",holydays:"Orante · Holy days",indulgences:"Orante · Indulgences"};
+const sel=new Set(Object.keys(LAYERS));
+const $=q=>document.querySelector(q);
+const webcal=u=>u.replace(/^https?:\/\//,"webcal://");
+function urls(){const ks=[...sel];if(ks.length===4)return [["All layers",FEED_BASE+"orante-all.ics","Orante"]];return ks.map(k=>[LAYERS[k].replace("Orante · ",""),FEED_BASE+"orante-"+k+".ics",LAYERS[k]])}
+let mode="all";
+function renderPick(){
+  const ks=mode==="all"?Object.keys(LAYERS):[...sel];
+  document.querySelectorAll("#modal [data-k]").forEach(c=>c.checked=sel.has(c.dataset.k));
+  const u=ks.length===4?[["All layers",FEED_BASE+"orante-all.ics","Orante"]]:ks.map(k=>[LAYERS[k].replace("Orante · ",""),FEED_BASE+"orante-"+k+".ics",LAYERS[k]]);
+  const first=u[0],n=u.length;
+  const apple=$("#ctaBtn"),g=$("#btnGoogle"),o=$("#btnOutlook");
+  [apple,g,o].forEach(b=>b.setAttribute("aria-disabled",first?"false":"true"));
+  apple.href=first?webcal(first[1]):"#";apple.textContent=first?"Add to Apple Calendar"+(n>1?" ("+n+")":""):"Choose at least one layer";
+  g.href=first?"https://calendar.google.com/calendar/r?cid="+encodeURIComponent(webcal(first[1])):"#";
+  o.href=first?"https://outlook.live.com/calendar/0/addfromweb?url="+encodeURIComponent(first[1])+"&name="+encodeURIComponent(first[2]):"#";
+  // put the viewer's own platform first
+  const ua=navigator.userAgent;const acts=$(".acts");if(/Android/.test(ua))acts.prepend(g);else if(/Windows/.test(ua))acts.prepend(o);
+  $("#links").innerHTML=u.map(x=>'<div class="link"><code>'+webcal(x[1])+'</code><button class="mini" data-copy="'+webcal(x[1])+'">Copy</button></div>').join("")+(n>1?'<p style="font-size:12px;color:#777;margin:8px 0 0">The buttons add the first layer; copy the others.</p>':"");
+}
+function setMode(m){mode=m;$("#segAll").classList.toggle("on",m==="all");$("#segPick").classList.toggle("on",m==="pick");$("#segAll").setAttribute("aria-selected",m==="all");$("#segPick").setAttribute("aria-selected",m==="pick");$("#opts").hidden=m==="all";renderPick()}
+$("#segAll").addEventListener("click",()=>setMode("all"));$("#segPick").addEventListener("click",()=>setMode("pick"));
+document.querySelectorAll("#modal [data-k]").forEach(c=>c.addEventListener("change",e=>{const k=e.target.dataset.k;e.target.checked?sel.add(k):sel.delete(k);renderPick()}));
+$("#showLinks").addEventListener("click",()=>{$("#links").hidden=!$("#links").hidden});
+let lastFocus=null;
+$("#openModal").addEventListener("click",()=>{lastFocus=document.activeElement;$("#modal").classList.add("open");setMode("all");$("#ctaBtn").focus()});
+const closeModal=()=>{$("#modal").classList.remove("open");if(lastFocus)lastFocus.focus()};
+$("#closeModal").addEventListener("click",closeModal);
+$("#modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();
+  if(e.key==="Tab"&&$("#modal").classList.contains("open")){const f=[...$("#modal").querySelectorAll("button,a[href],input")].filter(x=>!x.hidden&&x.offsetParent!==null);if(!f.length)return;const i=f.indexOf(document.activeElement);if(e.shiftKey&&(i<=0)){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus()}}});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-copy]");if(!b)return;const t=b.dataset.copy;const done=()=>{const T=$("#toast");T.classList.add("show");setTimeout(()=>T.classList.remove("show"),1400)};const fb=()=>{const r=document.createRange();r.selectNodeContents(b.previousElementSibling);const S=getSelection();S.removeAllRanges();S.addRange(r)};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done).catch(fb);else fb()});
+renderPick();
+
+/* ---------------- Method D: one plate + depth map, real camera push-in (Three.js) ----------------
+   MASTER: the single plate (swap in the 8K photo-real plate when ready). DEPTH: optional depth-map image
+   (white = near, black = far) from Depth Anything / Marigold; when null, a one-point-perspective depth is
+   synthesised from the vanishing point FOCAL. The plate is a displaced mesh; scroll drives the camera
+   straight down the axis toward FOCAL, so piers slide past and the altar grows: true parallax, one image. */
+const MASTER={src:"plates/master.webp",hi:"plates/master-hi.webp",aspect:6688/3764,fx:.4992,fy:.6403,depth:null,push:.78,amp:.5}; // one plate: 2.5K loads first, the 6.7K swaps in behind it; crucifix and Host share x≈.499
+const CHRIST={src:"plates/christ.png",aspect:1024/1536,feet:[.5065,.925],hPlate:.11}; // x = the cross centreline in the PNG, so it sits on the altar crucifix line // feet land on the Host; cross height as a fraction of the plate height (life-size next to the bishop) // the revealed Crucified, offset from FOCAL in plate units, height as fraction of viewport
+function runDepth(M){
+  let renderer;try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:"high-performance"})}catch(e){return null}
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0x070605);
+  const camera=new THREE.PerspectiveCamera(50,1,0.05,100);
+  const PH=10,PW=PH*M.aspect;
+  // depth texture
+  let depthTex;
+  if(M.depth){depthTex=new THREE.TextureLoader().load(M.depth)}
+  else{const c=document.createElement("canvas");c.width=512;c.height=Math.round(512/M.aspect);const g=c.getContext("2d");const im=g.createImageData(c.width,c.height);
+    for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){const dx=(x/c.width-M.fx),dy=(y/c.height-M.fy)/M.aspect;const r=Math.hypot(dx,dy);
+      let near=Math.min(1,r/.62);near=Math.pow(near,1.35); // 0 at the vanishing point (far), 1 at the edges (near)
+      const v=Math.round(near*255),i=(y*c.width+x)*4;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=255}
+    g.putImageData(im,0,0);depthTex=new THREE.CanvasTexture(c)}
+  const colorTex=new THREE.TextureLoader().load(M.src,()=>render());colorTex.colorSpace=THREE.SRGBColorSpace;colorTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+  if(M.hi){const maxT=renderer.capabilities.maxTextureSize;if(maxT>=8192){new THREE.TextureLoader().load(M.hi,t=>{t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer.capabilities.getMaxAnisotropy();mat.uniforms.map.value=t;render()})}}
+  const mat=new THREE.ShaderMaterial({uniforms:{map:{value:colorTex},depth:{value:depthTex},amp:{value:PH*M.amp}},
+    vertexShader:"uniform sampler2D depth;uniform float amp;varying vec2 vUv;void main(){vUv=uv;float d=texture2D(depth,uv).r;vec3 p=position;p.z+=d*amp;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);}",
+    fragmentShader:"uniform sampler2D map;varying vec2 vUv;void main(){vec4 c=texture2D(map,vUv);float v=smoothstep(.95,.35,distance(vUv,vec2(.5)));gl_FragColor=vec4(c.rgb*(.55+.45*v),1.0);}"});
+  const mesh=new THREE.Mesh(new THREE.PlaneGeometry(PW,PH,320,180),mat);scene.add(mesh);
+  // detail plate over the sanctuary: same displacement scheme, fades in with the approach so the end of the walk stays sharp
+  let dmat=null;if(M.detail){const D=M.detail;const dw=(D.x[1]-D.x[0])*PW,dh=(D.y[1]-D.y[0])*PH;
+    const c=document.createElement("canvas");c.width=512;c.height=Math.round(512/D.aspect);const g=c.getContext("2d");const im=g.createImageData(c.width,c.height);
+    for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){const dx=(x/c.width-D.fx),dy=(y/c.height-D.fy)/D.aspect;let near=Math.pow(Math.min(1,Math.hypot(dx,dy)/.62),1.35);const v=Math.round(near*255),i=(y*c.width+x)*4;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=255}
+    g.putImageData(im,0,0);const dDepth=new THREE.CanvasTexture(c);
+    const dTex=new THREE.TextureLoader().load(D.src,()=>render());dTex.colorSpace=THREE.SRGBColorSpace;dTex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+    dmat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{map:{value:dTex},depth:{value:dDepth},amp:{value:PH*M.amp*(dh/PH)},alpha:{value:0}},
+      vertexShader:mat.vertexShader,
+      fragmentShader:"uniform sampler2D map;uniform float alpha;varying vec2 vUv;void main(){vec4 c=texture2D(map,vUv);float e=smoothstep(0.0,.12,vUv.x)*smoothstep(1.0,.88,vUv.x)*smoothstep(0.0,.12,vUv.y)*smoothstep(1.0,.88,vUv.y);gl_FragColor=vec4(c.rgb,alpha*e);}"});
+    const dm=new THREE.Mesh(new THREE.PlaneGeometry(dw,dh,160,90),dmat);dm.position.set(((D.x[0]+D.x[1])/2-.5)*PW,(.5-(D.y[0]+D.y[1])/2)*PH,0.02);scene.add(dm)}
+  const focal=new THREE.Vector3((M.fx-.5)*PW,(.5-M.fy)*PH,0);
+  let z0=10;
+  function fit(){const a=innerWidth/innerHeight;const t=Math.tan(camera.fov*Math.PI/360);z0=Math.min((PH/2-Math.abs(focal.y))/t,(PW/2-Math.abs(focal.x))/(t*a))*.98;/* frame stays inside the plate at eye level */camera.aspect=a;camera.updateProjectionMatrix();mat.uniforms.amp.value=Math.min(PH*M.amp,z0*.26*M.push)}
+  function camAt(p){const e=p;/* linear: the stop tweens supply the easing */const z=z0*(1-M.push*e);if(dmat){const f=M.detail.fade;dmat.uniforms.alpha.value=Math.max(0,Math.min(1,(e-f[0])/(f[1]-f[0])))}const bob=Math.sin(e*Math.PI*7)*PH*.004*(1-e); // eye level = the plate's horizon (fy); straight down the aisle; faint walking bob
+    camera.position.set(0,focal.y+bob,z);camera.lookAt(0,focal.y,0);}
+  function render(){renderer.render(scene,camera)}
+  function size(){renderer.setSize(innerWidth,innerHeight,false);fit();camAt(prog.p);render();fx.size()}
+  // the spiritual realm: 2D overlay with cursor-revealed Crucified over the Host
+  const fxCanvas=document.getElementById("fx"),fc=fxCanvas.getContext("2d");let pointer=null,soft=[0,0];const christImg=new Image();christImg.src=CHRIST.src;
+  (function follow(){requestAnimationFrame(follow);if(!pointer)return;soft[0]+=(pointer[0]-soft[0])*.14;soft[1]+=(pointer[1]-soft[1])*.14;fx.draw()})();
+  const fx={size(){fxCanvas.width=innerWidth*Math.min(devicePixelRatio,2);fxCanvas.height=innerHeight*Math.min(devicePixelRatio,2);fx.draw()},
+    draw(){const W=fxCanvas.width,H=fxCanvas.height;fc.clearRect(0,0,W,H);if(!pointer)return;
+      const v=focal.clone().project(camera);const cx=(v.x+1)/2*W,cy=(1-v.y)/2*H;
+      const v2=new THREE.Vector3(focal.x,focal.y+PH*CHRIST.hPlate,0).project(camera);const ch=Math.abs((1-v2.y)/2*H-cy),cw=ch*CHRIST.aspect;
+      const r=Math.min(W,H)*.06,px=soft[0]*W/innerWidth,py=soft[1]*H/innerHeight;
+      const off=fx.off||(fx.off=document.createElement("canvas"));off.width=W;off.height=H;const o=off.getContext("2d");o.clearRect(0,0,W,H);
+      if(christImg.complete&&christImg.naturalWidth)o.drawImage(christImg,cx-cw*CHRIST.feet[0],cy-ch*CHRIST.feet[1],cw,ch);
+      // circular reveal with faded edge, following the cursor
+      const m=o.createRadialGradient(px,py,0,px,py,r);m.addColorStop(0,"rgba(0,0,0,1)");m.addColorStop(.45,"rgba(0,0,0,.9)");m.addColorStop(1,"rgba(0,0,0,0)");o.globalCompositeOperation="destination-in";o.fillStyle=m;o.fillRect(0,0,W,H);
+      fc.drawImage(off,0,0)}};
+  fxCanvas.addEventListener("pointermove",e=>{if(!pointer)soft=[e.clientX,e.clientY];pointer=[e.clientX,e.clientY]});fxCanvas.addEventListener("pointerleave",()=>{pointer=null;fx.draw()});
+  fxCanvas.addEventListener("touchmove",e=>{const t=e.touches[0];if(!pointer)soft=[t.clientX,t.clientY];pointer=[t.clientX,t.clientY]},{passive:true});fxCanvas.addEventListener("touchend",()=>{pointer=null;fx.draw()});
+  addEventListener("resize",size);size();
+  return {update:p=>{camAt(p);render();fx.draw()}};
+}
+/* ---------------- scroll timeline ---------------- */
+let engine=null;
+if(window.ORANTE_FRAMES){engine=runFrames(window.ORANTE_FRAMES)}
+else if(!window.ORANTE_3D){engine=runDepth(MASTER)}
+else{engine=runThree();if(!engine){document.getElementById("fallback").style.display="grid";canvas.style.display="none"}}
+/* stepping: any scroll gesture (wheel, swipe, arrow keys) moves the camera to the next stop; the gesture's force is ignored */
+let stop=0,lastInput=0;
+function goTo(i){i=Math.max(0,Math.min(STOPS.length-1,i));if(i===stop&&!moving)return;stop=i;moving=true;stageUI(prog.p);
+  gsap.to(prog,{p:STOPS[i],duration:1.1,ease:"power3.inOut",overwrite:true,onUpdate(){if(engine)engine.update(prog.p);stageUI(prog.p)},onComplete(){moving=false;stageUI(prog.p)}})}
+function input(dir){const now=performance.now();if(moving||now-lastInput<250)return;lastInput=now;goTo(stop+dir)}
+addEventListener("wheel",e=>{if(document.getElementById("modal").classList.contains("open"))return;e.preventDefault();if(Math.abs(e.deltaY)<4)return;input(e.deltaY>0?1:-1)},{passive:false});
+let ty=null;addEventListener("touchstart",e=>{ty=e.touches[0].clientY},{passive:true});
+addEventListener("touchend",e=>{if(ty===null||document.getElementById("modal").classList.contains("open"))return;const dy=ty-e.changedTouches[0].clientY;ty=null;if(Math.abs(dy)>30)input(dy>0?1:-1)});
+addEventListener("keydown",e=>{if(["ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();input(1)}if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();input(-1)}});
+stageUI(0);
+</script>
+
+</body>
+</html>

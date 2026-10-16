@@ -1,0 +1,165 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Orante//Ordo 1962//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Orante · Holy days
+X-WR-CALDESC:Holy days of obligation\, universal (1917) and US. Years: 2026
+X-APPLE-CALENDAR-COLOR:#B8933B
+REFRESH-INTERVAL;VALUE=DURATION:P1W
+X-PUBLISHED-TTL:P1W
+BEGIN:VEVENT
+UID:hdo-2026-01-01@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260101
+DTEND;VALUE=DATE:20260102
+SUMMARY:✝ Holy day: Octave of the Nativity
+DESCRIPTION:Binding in the USA. Mass obligatory\; rest from servile work.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/HolyDays
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow is a holy day of obligation: Octave of the Nativity
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:hdo-2026-01-06@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260106
+DTEND;VALUE=DATE:20260107
+SUMMARY:✝ Holy day: Epiphany of Our Lord (not binding in US)
+DESCRIPTION:On the 1917 universal list of 10\; US bishops keep 6. Mass obli
+ gatory\; rest from servile work.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/HolyDays
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow is a holy day of obligation: Epiphany of Our Lord
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:hdo-2026-03-19@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260319
+DTEND;VALUE=DATE:20260320
+SUMMARY:✝ Holy day: St Joseph\, Spouse of the Blessed Virgin Mary (not bi
+ nding in US)
+DESCRIPTION:On the 1917 universal list of 10\; US bishops keep 6. Mass obli
+ gatory\; rest from servile work.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/HolyDays
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow is a holy day of obligation: St Joseph\, Spouse of the
+  Blessed Virgin Mary
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:hdo-2026-05-14@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260514
+DTEND;VALUE=DATE:20260515
+SUMMARY:✝ Holy day: Ascension of Our Lord
+DESCRIPTION:Binding in the USA. Mass obligatory\; rest from servile work.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/HolyDays
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow is a holy day of obligation: Ascension of Our Lord
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:hdo-2026-06-04@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260604
+DTEND;VALUE=DATE:20260605
+SUMMARY:✝ Holy day: Corpus Christi (not binding in US)
+DESCRIPTION:On the 1917 universal list of 10\; US bishops keep 6. Mass obli
+ gatory\; rest from servile work.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/HolyDays
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow is a holy day of obligation: Corpus Christi
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:hdo-2026-06-29@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260630
+SUMMARY:✝ Holy day: Sts Peter & Paul\, Apostles (not binding in US)
+DESCRIPTION:On the 1917 universal list of 10\; US bishops keep 6. Mass obli
+ gatory\; rest from servile work.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/HolyDays
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow is a holy day of obligation: Sts Peter & Paul\, Apostl
+ es
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:hdo-2026-08-15@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20260815
+DTEND;VALUE=DATE:20260816
+SUMMARY:✝ Holy day: Assumption of the Blessed Virgin Mary
+DESCRIPTION:Binding in the USA. Mass obligatory\; rest from servile work.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/HolyDays
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow is a holy day of obligation: Assumption of the Blessed
+  Virgin Mary
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:hdo-2026-12-08@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261208
+DTEND;VALUE=DATE:20261209
+SUMMARY:✝ Holy day: Immaculate Conception of the Blessed Virgin Mary
+DESCRIPTION:Binding in the USA. Mass obligatory\; rest from servile work.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/HolyDays
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow is a holy day of obligation: Immaculate Conception of 
+ the Blessed Virgin Mary
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:hdo-2026-12-25@orante
+DTSTAMP:20261016T013528Z
+DTSTART;VALUE=DATE:20261225
+DTEND;VALUE=DATE:20261226
+SUMMARY:✝ Holy day: Nativity of Our Lord Jesus Christ
+DESCRIPTION:Binding in the USA. Mass obligatory\; rest from servile work.
+TRANSP:TRANSPARENT
+CLASS:PUBLIC
+CATEGORIES:Orante/HolyDays
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Tomorrow is a holy day of obligation: Nativity of Our Lord Jesu
+ s Christ
+TRIGGER:-PT6H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
