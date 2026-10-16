@@ -1,19 +1,19 @@
-Fri Oct 16 17:36:46 UTC 2026
+Fri Oct 16 17:42:10 UTC 2026
 == A orante.net @1.1.1.1
 185.199.108.153
 185.199.109.153
 185.199.110.153
 185.199.111.153
 == A orante.net @8.8.8.8
+185.199.109.153
 185.199.108.153
 185.199.110.153
 185.199.111.153
-185.199.109.153
 == A orante.net @9.9.9.9
-185.199.108.153
 185.199.111.153
-185.199.109.153
 185.199.110.153
+185.199.108.153
+185.199.109.153
 == CNAME www @1.1.1.1
 michaelpaine-0.github.io.
 == NS
@@ -28,33 +28,93 @@ Content-Length: 162
 Server: GitHub.com
 Content-Type: text/html
 Location: https://orante.net/
-X-GitHub-Request-Id: 0EBE:1ECF09:1051BC7:11DF57B:6AD260AA
+X-GitHub-Request-Id: CCD8:22DEBF:FA165D:113234F:6AD261F3
 x-github-edge-region: iad
 Accept-Ranges: bytes
 Age: 0
-Date: Fri, 16 Oct 2026 17:36:47 GMT
+Date: Fri, 16 Oct 2026 17:42:11 GMT
 Via: 1.1 varnish
 == https://orante.net headers
 HTTP/2 200 
 server: GitHub.com
 content-type: text/html; charset=utf-8
-last-modified: Fri, 16 Oct 2026 17:35:10 GMT
+last-modified: Fri, 16 Oct 2026 17:37:16 GMT
 access-control-allow-origin: *
-etag: "6ad2604e-9572"
-expires: Fri, 16 Oct 2026 17:46:47 GMT
+etag: "6ad260cc-9572"
+expires: Fri, 16 Oct 2026 17:52:11 GMT
 cache-control: max-age=600
 x-proxy-cache: MISS
-x-github-request-id: 9A94:1CC242:FC03F3:10C93BB:6AD260AF
+x-github-request-id: FB1C:12D64A:A0CD00:C5465A:6AD261F3
 x-github-edge-region: iad
 accept-ranges: bytes
 == title
 <title>Orante Nave
-== github.io headers
-HTTP/2 301 
-server: GitHub.com
-content-type: text/html
-location: https://orante.net/
-x-github-request-id: C526:102E3B:92A188:B6E6DD:6AD260AF
-x-github-edge-region: iad
-accept-ranges: bytes
-age: 0
+== feed all
+HTTP/2 200 
+content-type: text/calendar
+content-length: 234422
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Orante//Ordo 1962//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Orante
+X-WR-CALDESC:All layers in one calendar. Years: 2026
+X-APPLE-CALENDAR-COLOR:#5A
+events: 495
+== feed feasts
+HTTP/2 200 
+content-type: text/calendar
+content-length: 167588
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Orante//Ordo 1962//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Orante · Feasts
+X-WR-CALDESC:Ordo 1962: daily celebration\, rank\, color\, Mass notes.
+events: 365
+== feed fasts
+HTTP/2 200 
+content-type: text/calendar
+content-length: 46822
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Orante//Ordo 1962//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Orante · Fasts
+X-WR-CALDESC:Fast and abstinence under the 1917 Code (stricter than US 
+events: 93
+== feed holydays
+HTTP/2 200 
+content-type: text/calendar
+content-length: 4740
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Orante//Ordo 1962//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Orante · Holy days
+X-WR-CALDESC:Holy days of obligation\, universal (1917) and US. Yea
+events: 9
+== feed indulgences
+HTTP/2 200 
+content-type: text/calendar
+content-length: 16282
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Orante//Ordo 1962//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Orante · Indulgences
+X-WR-CALDESC:Plenary indulgences tied to dates (Enchiridion 1999)
+events: 28
+== app
+200 69236
+== favicon
+200 image/svg+xml
+== plates
+master.webp 200 985042
+master-hi.webp 200 3953988
+christ.png 200 1150912
