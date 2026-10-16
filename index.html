@@ -77,7 +77,9 @@ html,body{overflow:hidden;overscroll-behavior:none}
 .acts a{font:600 15px Arial,Helvetica,sans-serif;background:#000;color:#fff;padding:14px 16px;text-decoration:none;border-radius:999px;text-align:center;min-height:48px;display:grid;place-items:center}
 .acts a.alt{background:#fff;color:#000;border:1px solid #ddd;font-weight:400}
 .acts a[aria-disabled="true"]{opacity:.4;pointer-events:none}
-.other{margin-top:10px;font-size:13px;color:#555;text-align:center}
+.expect{margin:12px 0 0;font-size:12.5px;line-height:1.45;color:#555}
+.expect b{color:#222;font-weight:600}
+.other{margin-top:8px;font-size:13px;color:#555;text-align:center}
 .other button{font:13px Arial,Helvetica,sans-serif;background:none;border:0;color:#000;text-decoration:underline;cursor:pointer;padding:6px}
 .links[hidden]{display:none}
 .link{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin-top:8px;font-size:12px}
@@ -121,6 +123,7 @@ html,body{overflow:hidden;overscroll-behavior:none}
     <label class="opt"><input type="checkbox" data-k="indulgences" checked><span class="bx"></span> Indulgences <small>28 grants</small></label>
   </div>
   <div class="acts"><a id="ctaBtn" href="#">Add to Apple Calendar</a><a id="btnGoogle" class="alt" href="#" target="_blank" rel="noopener">Add to Google Calendar</a><a id="btnOutlook" class="alt" href="#" target="_blank" rel="noopener">Add to Outlook</a></div>
+  <p class="expect" id="expect"><b>What happens next:</b> <b>Apple</b> opens Calendar and asks you to subscribe; events appear in about a minute. <b>Google</b> opens Google Calendar with an "Add calendar" prompt; it may take up to a day to show events and refreshes about once a day. <b>Outlook</b> opens Outlook on the web with an "Import" box; press Import.</p>
   <div class="other"><button type="button" id="showLinks">Other app? Copy the address</button></div>
   <div class="links" id="links" hidden></div>
 </div></div></div>
@@ -283,7 +286,7 @@ function renderPick(){
   const apple=$("#ctaBtn"),g=$("#btnGoogle"),o=$("#btnOutlook");
   [apple,g,o].forEach(b=>b.setAttribute("aria-disabled",first?"false":"true"));
   apple.href=first?webcal(first[1]):"#";apple.textContent=first?"Add to Apple Calendar"+(n>1?" ("+n+")":""):"Choose at least one layer";
-  g.href=first?"https://calendar.google.com/calendar/r?cid="+encodeURIComponent(webcal(first[1])):"#";
+  g.href=first?"https://calendar.google.com/calendar/r?cid="+encodeURIComponent(first[1]):"#";
   o.href=first?"https://outlook.live.com/calendar/0/addfromweb?url="+encodeURIComponent(first[1])+"&name="+encodeURIComponent(first[2]):"#";
   // put the viewer's own platform first
   const ua=navigator.userAgent;const acts=$(".acts");if(/Android/.test(ua))acts.prepend(g);else if(/Windows/.test(ua))acts.prepend(o);
@@ -349,20 +352,21 @@ function runDepth(M){
   function render(){renderer.render(scene,camera)}
   function size(){renderer.setSize(innerWidth,innerHeight,false);fit();camAt(prog.p);render();fx.size()}
   // the spiritual realm: 2D overlay with cursor-revealed Crucified over the Host
-  const fxCanvas=document.getElementById("fx"),fc=fxCanvas.getContext("2d");let pointer=null,soft=[0,0];const christImg=new Image();christImg.src=CHRIST.src;
+  const fxCanvas=document.getElementById("fx"),fc=fxCanvas.getContext("2d");let pointer=null,soft=[0,0],touch=false;const christImg=new Image();christImg.src=CHRIST.src;
   (function follow(){requestAnimationFrame(follow);if(!pointer)return;soft[0]+=(pointer[0]-soft[0])*.14;soft[1]+=(pointer[1]-soft[1])*.14;fx.draw()})();
   const fx={size(){fxCanvas.width=innerWidth*Math.min(devicePixelRatio,2);fxCanvas.height=innerHeight*Math.min(devicePixelRatio,2);fx.draw()},
     draw(){const W=fxCanvas.width,H=fxCanvas.height;fc.clearRect(0,0,W,H);if(!pointer)return;
       const v=focal.clone().project(camera);const cx=(v.x+1)/2*W,cy=(1-v.y)/2*H;
       const v2=new THREE.Vector3(focal.x,focal.y+PH*CHRIST.hPlate,0).project(camera);const ch=Math.abs((1-v2.y)/2*H-cy),cw=ch*CHRIST.aspect;
-      const r=Math.min(W,H)*.06,px=soft[0]*W/innerWidth,py=soft[1]*H/innerHeight;
+      const dpr=W/innerWidth;const r=touch?Math.min(W,H)*.17:Math.min(W,H)*.06;const px=soft[0]*dpr,py=soft[1]*dpr-(touch?90*dpr:0); // on touch: bigger circle, lifted 90px above the finger
       const off=fx.off||(fx.off=document.createElement("canvas"));off.width=W;off.height=H;const o=off.getContext("2d");o.clearRect(0,0,W,H);
       if(christImg.complete&&christImg.naturalWidth)o.drawImage(christImg,cx-cw*CHRIST.feet[0],cy-ch*CHRIST.feet[1],cw,ch);
       // circular reveal with faded edge, following the cursor
       const m=o.createRadialGradient(px,py,0,px,py,r);m.addColorStop(0,"rgba(0,0,0,1)");m.addColorStop(.45,"rgba(0,0,0,.9)");m.addColorStop(1,"rgba(0,0,0,0)");o.globalCompositeOperation="destination-in";o.fillStyle=m;o.fillRect(0,0,W,H);
       fc.drawImage(off,0,0)}};
-  fxCanvas.addEventListener("pointermove",e=>{if(!pointer)soft=[e.clientX,e.clientY];pointer=[e.clientX,e.clientY]});fxCanvas.addEventListener("pointerleave",()=>{pointer=null;fx.draw()});
-  fxCanvas.addEventListener("touchmove",e=>{const t=e.touches[0];if(!pointer)soft=[t.clientX,t.clientY];pointer=[t.clientX,t.clientY]},{passive:true});fxCanvas.addEventListener("touchend",()=>{pointer=null;fx.draw()});
+  fxCanvas.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;touch=false;if(!pointer)soft=[e.clientX,e.clientY];pointer=[e.clientX,e.clientY]});fxCanvas.addEventListener("pointerleave",()=>{pointer=null;fx.draw()});
+  fxCanvas.addEventListener("touchstart",e=>{const t=e.touches[0];touch=true;soft=[t.clientX,t.clientY];pointer=[t.clientX,t.clientY]},{passive:true});
+  fxCanvas.addEventListener("touchmove",e=>{const t=e.touches[0];touch=true;if(!pointer)soft=[t.clientX,t.clientY];pointer=[t.clientX,t.clientY]},{passive:true});fxCanvas.addEventListener("touchend",()=>{pointer=null;fx.draw()});
   addEventListener("resize",size);size();
   return {update:p=>{camAt(p);render();fx.draw()}};
 }
