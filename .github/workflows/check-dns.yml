@@ -20,7 +20,10 @@ jobs:
           echo "== http://orante.net headers"; curl -sS -o /dev/null -D - -m 20 http://orante.net/ | head -12 || true
           echo "== https://orante.net headers"; curl -sS -o /dev/null -D - -m 20 https://orante.net/ 2>&1 | head -12 || true
           echo "== title"; curl -sSL -m 20 http://orante.net/ | grep -o "<title>[^<]*" | head -1 || true
-          echo "== github.io headers"; curl -sS -o /dev/null -D - -m 20 https://michaelpaine-0.github.io/orante/ | head -8 || true
+          for f in all feasts fasts holydays indulgences; do echo "== feed $f"; curl -sS -o /tmp/$f.ics -D - -m 20 https://orante.net/feeds/orante-$f.ics | grep -iE "^HTTP|content-type|content-length"; head -c 200 /tmp/$f.ics; echo; echo "events: $(grep -c BEGIN:VEVENT /tmp/$f.ics)"; done
+          echo "== app"; curl -sS -o /dev/null -w "%{http_code} %{size_download}\n" -m 20 https://orante.net/app/
+          echo "== favicon"; curl -sS -o /dev/null -w "%{http_code} %{content_type}\n" -m 20 https://orante.net/favicon.svg
+          echo "== plates"; for p in master.webp master-hi.webp christ.png; do curl -sS -o /dev/null -w "$p %{http_code} %{size_download}\n" -m 60 https://orante.net/plates/$p; done
           } > status/dns.txt 2>&1 || true
           cat status/dns.txt
       - name: Commit result
