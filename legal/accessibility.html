@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Accessibility · Orante</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,500;1,300&display=swap">
+<style>
+:root{--bg:#0b0908;--fg:#eadfc9;--dim:#b7aa92;--gold:#c9a24a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Cormorant",Garamond,"Times New Roman",serif;font-size:19px;line-height:1.6}
+.wrap{max-width:720px;margin:0 auto;padding:40px max(16px,env(safe-area-inset-left,0px)) 80px max(16px,env(safe-area-inset-right,0px))}
+a{color:#fff}
+.brand{font-style:italic;font-weight:300;letter-spacing:.2em;font-size:22px;color:#fff;text-decoration:none}
+h1{font-weight:300;font-style:italic;font-size:44px;margin:28px 0 6px;line-height:1.05}
+h2{font-weight:500;font-size:24px;margin:30px 0 6px}
+p,li{color:var(--fg)}
+.meta{color:var(--dim);font-size:15px;margin:0 0 18px}
+nav.legal{margin-top:60px;padding-top:18px;border-top:1px solid rgba(201,162,74,.3);font-size:15px;color:var(--dim);display:flex;flex-wrap:wrap;gap:8px 18px}
+nav.legal a{color:var(--dim);text-decoration:none}nav.legal a:hover{color:#fff}
+</style>
+</head>
+<body><div class="wrap">
+<a class="brand" href="/">Orante</a>
+
+<h1>Accessibility</h1><p class="meta">Effective 16 October 2026</p>
+<p>We want Orante to be usable by everyone. The home page is a visual experience; everything it offers is also reachable without it.</p>
+<h2>Without motion or a mouse</h2>
+<ul>
+<li>The calendar can be added directly: <a href="/feeds/orante-all.ics">all layers</a>, <a href="/feeds/orante-feasts.ics">feasts</a>, <a href="/feeds/orante-fasts.ics">fasts</a>, <a href="/feeds/orante-holydays.ics">holy days</a>, <a href="/feeds/orante-indulgences.ics">indulgences</a>.</li>
+<li>The day-by-day Ordo at <a href="/app/">orante.net/app</a> is a plain, keyboard-navigable page.</li>
+<li>On the home page, arrow keys, Page Up/Down and the space bar move between stops; the Start button and the dialog work with Tab, Enter and Escape.</li>
+</ul>
+<h2>Standards</h2>
+<p>We aim for WCAG 2.1 AA: text contrast, visible focus, labelled controls, and a dialog that traps focus and returns it. The cursor reveal is decorative and carries no information.</p>
+<h2>Tell us</h2>
+<p>If something blocks you, <a href="/legal/contact.html">write to us</a> with the page and the assistive technology you use.</p>
+
+<nav class="legal"><a href="/legal/privacy.html">Privacy</a><a href="/legal/terms.html">Terms</a><a href="/legal/disclaimer.html">Disclaimer</a><a href="/legal/accessibility.html">Accessibility</a><a href="/legal/contact.html">Contact</a><span>© 2026 Orante</span></nav>
+</div></body></html>
