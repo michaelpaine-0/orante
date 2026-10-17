@@ -26,7 +26,9 @@ html,body{overflow:hidden;overscroll-behavior:none}
 #fx{position:fixed;inset:0;width:100%;height:100%;z-index:4;display:block}
 #dim{position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 55%,rgba(0,0,0,0) 0%,rgba(0,0,0,.55) 100%),rgba(5,4,3,.35);opacity:0;pointer-events:none}
 .brand{position:fixed;top:calc(18px + env(safe-area-inset-top,0px));left:max(18px,env(safe-area-inset-left,0px));font-family:"Cormorant",Garamond,serif;font-style:italic;font-weight:300;letter-spacing:.2em;font-size:22px;color:#fff;z-index:5}
-.hint{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-family:"Cormorant",Garamond,serif;font-style:italic;font-weight:300;font-size:15px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.85);z-index:5;transition:opacity .6s}
+.hint{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);transition:opacity .6s,top .9s cubic-bezier(.4,0,.2,1)}
+.hint.low{top:auto;bottom:calc(52px + env(safe-area-inset-bottom,0px));transform:translate(-50%,0)}
+.hint{display:flex;flex-direction:column;align-items:center;gap:10px;font-family:"Cormorant",Garamond,serif;font-style:italic;font-weight:300;font-size:15px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.85);z-index:5;transition:opacity .6s}
 .hint i{position:relative;display:block;width:1px;height:56px;background:rgba(255,255,255,.28);overflow:hidden}
 .hint i b{position:absolute;left:0;top:-40%;width:1px;height:40%;background:#fff}
 @media (prefers-reduced-motion:no-preference){.hint i b{animation:cue 1.8s cubic-bezier(.4,0,.2,1) infinite}@keyframes cue{0%{top:-40%}70%{top:100%}100%{top:100%}}}
@@ -160,7 +162,7 @@ function stageUI(p){
   const s1=at(1)||at(2),s2=at(2);
   ["w1","w2"].forEach(id=>{const e=document.getElementById(id);e.classList.toggle("show",s1);e.classList.toggle("up",p>STOPS[1]+.02)});
   ["w3","w4"].forEach(id=>document.getElementById(id).classList.toggle("show",s2));
-  const end=p>.97&&!moving;document.getElementById("center").classList.toggle("show",end);dim.style.opacity=end?.35:0;;hint.style.opacity=p<.04?1:0;
+  const end=p>.97&&!moving;document.getElementById("center").classList.toggle("show",end);dim.style.opacity=end?.35:0;;hint.style.opacity=(p<.97&&!moving)?1:0;hint.classList.toggle("low",p>.02);
 }
 
 /* ---------------- Method A: frame scrubber ---------------- */
