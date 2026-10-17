@@ -1,5 +1,5 @@
 # Orante
-> Free traditional Catholic calendar (1962 Roman Missal, 1960 rubrics) delivered as iCal subscription feeds for Apple, Google and Outlook, plus a daily Ordo.
+> Free traditional Catholic calendar (1962 Roman Missal, 1960 rubrics) delivered as a free iCal guide for Apple, Google and Outlook, plus a daily Ordo.
 
 - About: https://orante.net/about/
 - Daily Ordo (web app): https://orante.net/app/

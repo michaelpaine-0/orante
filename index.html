@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Orante: the traditional Catholic liturgical year in the calendar you already use.">
+<meta name="description" content="Orante: a free guide to the traditional Catholic liturgical year, inside the calendar you already use.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -13,9 +13,9 @@
 <title>Orante</title>
 <link rel="canonical" href="https://orante.net/">
 <meta property="og:site_name" content="Orante"><meta property="og:type" content="website"><meta property="og:url" content="https://orante.net/">
-<meta property="og:title" content="Orante · the traditional Catholic calendar"><meta property="og:description" content="Feasts, fasts, holy days and indulgences of the 1962 Missal, as a calendar subscription for Apple, Google and Outlook.">
+<meta property="og:title" content="Orante · the traditional Catholic calendar"><meta property="og:description" content="Feasts, fasts, holy days and indulgences of the 1962 Missal, as a free guide inside Apple, Google and Outlook calendars.">
 <meta property="og:image" content="https://orante.net/plates/master.webp"><meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Orante","url":"https://orante.net/","description":"The traditional Catholic liturgical year (1962 Missal) as subscribable calendar feeds and a daily Ordo.","publisher":{"@type":"Organization","name":"Orante","url":"https://orante.net/","logo":"https://orante.net/apple-touch-icon.png","email":"hello@orante.net"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Orante","url":"https://orante.net/","description":"The traditional Catholic liturgical year (1962 Missal) as a free calendar guide and a daily Ordo.","publisher":{"@type":"Organization","name":"Orante","url":"https://orante.net/","logo":"https://orante.net/apple-touch-icon.png","email":"hello@orante.net"}}</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;1,300;1,400&display=swap">
 <style>
@@ -134,7 +134,7 @@ html,body{overflow:hidden;overscroll-behavior:none}
 <div id="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle2"><div class="boxwrap"><div class="box">
   <button class="close" id="closeModal" aria-label="Close">×</button>
   <h3 id="mtitle2">Pray With Ease</h3>
-  <p>Orante integrates the traditional Catholic liturgical year with your existing routine. No apps, downloads, or new calendars.</p>
+  <p>A free guide to the traditional Catholic year, inside the calendar you already use. No apps, no downloads, no cost.</p>
   <div class="seg" role="tablist"><button type="button" class="on" id="segAll" role="tab" aria-selected="true">Everything</button><button type="button" id="segPick" role="tab" aria-selected="false">Choose layers</button></div>
   <div class="opts" id="opts" hidden>
     <label class="opt"><input type="checkbox" data-k="feasts" checked><span class="bx"></span> Feasts <small>365 days</small></label>
@@ -292,7 +292,7 @@ function runThree(){
 }
 
 
-/* ---------------- Subscribe modal: feed picker (default: all) ---------------- */
+/* ---------------- Free-guide modal: feed picker (default: all) ---------------- */
 const FEED_BASE="https://orante.net/feeds/"; // replace when hosted
 const LAYERS={feasts:"Orante · Feasts",fasts:"Orante · Fasts",holydays:"Orante · Holy days",indulgences:"Orante · Indulgences"};
 const sel=new Set(Object.keys(LAYERS));
