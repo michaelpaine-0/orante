@@ -1,0 +1,8 @@
+# Orante
+> Free traditional Catholic calendar (1962 Roman Missal, 1960 rubrics) delivered as iCal subscription feeds for Apple, Google and Outlook, plus a daily Ordo.
+
+- About: https://orante.net/about/
+- Daily Ordo (web app): https://orante.net/app/
+- Feeds: https://orante.net/feeds/orante-all.ics (all), orante-feasts.ics, orante-fasts.ics, orante-holydays.ics, orante-indulgences.ics
+- Fast/abstinence: 1917 Code of Canon Law cc. 1250-1254. Holy days: 1917 universal list + US six. Indulgences: Enchiridion 1999.
+- Contact: hello@orante.net
