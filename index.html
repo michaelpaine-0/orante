@@ -321,8 +321,8 @@ renderPick();
    (white = near, black = far) from Depth Anything / Marigold; when null, a one-point-perspective depth is
    synthesised from the vanishing point FOCAL. The plate is a displaced mesh; scroll drives the camera
    straight down the axis toward FOCAL, so piers slide past and the altar grows: true parallax, one image. */
-const MASTER={src:"plates/master.webp",hi:"plates/master-hi.webp",aspect:6688/3764,fx:.4992,fy:.6403,depth:null,push:.40,amp:.5} // push .40: stops show 100%, 90%, 80%, 60% of the plate; // one plate: 2.5K loads first, the 6.7K swaps in behind it; crucifix and Host share x≈.499
-const CHRIST={src:"plates/christ.png",aspect:1024/1536,feet:[.5065,.925],hPlate:.11}; // x = the cross centreline in the PNG, so it sits on the altar crucifix line // feet land on the Host; cross height as a fraction of the plate height (life-size next to the bishop) // the revealed Crucified, offset from FOCAL in plate units, height as fraction of viewport
+const MASTER={src:"plates/master.webp",hi:null,aspect:1,fx:.503,fy:.679,depth:null,push:.40,amp:.5}; // square 2048 plate; Host at (.503,.679); stops show 100/90/80/60%
+const CHRIST={src:"plates/christ.png",aspect:1024/1536,feet:[.5065,.925],hPlate:.20}; // x = the cross centreline in the PNG, so it sits on the altar crucifix line // feet land on the Host; cross height as a fraction of the plate height (life-size next to the bishop) // the revealed Crucified, offset from FOCAL in plate units, height as fraction of viewport
 function runDepth(M){
   let renderer;try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:"high-performance"})}catch(e){return null}
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
@@ -341,7 +341,7 @@ function runDepth(M){
   if(M.hi){const maxT=renderer.capabilities.maxTextureSize;if(maxT>=8192){new THREE.TextureLoader().load(M.hi,t=>{t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=renderer.capabilities.getMaxAnisotropy();mat.uniforms.map.value=t;render()})}}
   const mat=new THREE.ShaderMaterial({uniforms:{map:{value:colorTex},depth:{value:depthTex},amp:{value:PH*M.amp}},
     vertexShader:"uniform sampler2D depth;uniform float amp;varying vec2 vUv;void main(){vUv=uv;float d=texture2D(depth,uv).r;vec3 p=position;p.z+=d*amp;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);}",
-    fragmentShader:"uniform sampler2D map;varying vec2 vUv;void main(){vec4 c=texture2D(map,vUv);float v=smoothstep(.95,.35,distance(vUv,vec2(.5)));gl_FragColor=vec4(c.rgb*(.55+.45*v),1.0);}"});
+    fragmentShader:"uniform sampler2D map;varying vec2 vUv;void main(){vec4 c=texture2D(map,vUv);float v=smoothstep(1.0,.4,distance(vUv,vec2(.5)));gl_FragColor=vec4(c.rgb*1.12*(.82+.18*v),1.0);}"});
   const mesh=new THREE.Mesh(new THREE.PlaneGeometry(PW,PH,320,180),mat);scene.add(mesh);
   // detail plate over the sanctuary: same displacement scheme, fades in with the approach so the end of the walk stays sharp
   let dmat=null;if(M.detail){const D=M.detail;const dw=(D.x[1]-D.x[0])*PW,dh=(D.y[1]-D.y[0])*PH;
@@ -355,9 +355,9 @@ function runDepth(M){
     const dm=new THREE.Mesh(new THREE.PlaneGeometry(dw,dh,160,90),dmat);dm.position.set(((D.x[0]+D.x[1])/2-.5)*PW,(.5-(D.y[0]+D.y[1])/2)*PH,0.02);scene.add(dm)}
   const focal=new THREE.Vector3((M.fx-.5)*PW,(.5-M.fy)*PH,0);
   let z0=10;
-  function fit(){const a=innerWidth/innerHeight;const t=Math.tan(camera.fov*Math.PI/360);z0=Math.min((PH/2-Math.abs(focal.y))/t,(PW/2-Math.abs(focal.x))/(t*a))*.98;/* frame stays inside the plate at eye level */camera.aspect=a;camera.updateProjectionMatrix();mat.uniforms.amp.value=Math.min(PH*M.amp,z0*.26*M.push)}
+  function fit(){const a=innerWidth/innerHeight;const t=Math.tan(camera.fov*Math.PI/360);z0=Math.min((PH/2)/t,(PW/2-Math.abs(focal.x))/(t*a))*.98;/* frame stays inside the plate at eye level */camera.aspect=a;camera.updateProjectionMatrix();mat.uniforms.amp.value=Math.min(PH*M.amp,z0*.26*M.push)}
   function camAt(p){const e=p;/* linear: the stop tweens supply the easing */const z=z0*(1-M.push*e);if(dmat){const f=M.detail.fade;dmat.uniforms.alpha.value=Math.max(0,Math.min(1,(e-f[0])/(f[1]-f[0])))}const bob=Math.sin(e*Math.PI*7)*PH*.004*(1-e); // eye level = the plate's horizon (fy); straight down the aisle; faint walking bob
-    camera.position.set(0,focal.y+bob,z);camera.lookAt(0,focal.y,0);}
+    const cy=focal.y*Math.min(1,e*1.6);camera.position.set(0,cy+bob,z);camera.lookAt(0,cy,0);}
   function render(){renderer.render(scene,camera)}
   function size(){renderer.setSize(innerWidth,innerHeight,false);fit();camAt(prog.p);render();fx.size()}
   // the spiritual realm: 2D overlay with cursor-revealed Crucified over the Host
