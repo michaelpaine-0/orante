@@ -357,9 +357,9 @@ function runDepth(M){
     const dm=new THREE.Mesh(new THREE.PlaneGeometry(dw,dh,160,90),dmat);dm.position.set(((D.x[0]+D.x[1])/2-.5)*PW,(.5-(D.y[0]+D.y[1])/2)*PH,0.02);scene.add(dm)}
   const focal=new THREE.Vector3((M.fx-.5)*PW,(.5-M.fy)*PH,0);
   let z0=10;
-  function fit(){const a=innerWidth/innerHeight;const t=Math.tan(camera.fov*Math.PI/360);z0=Math.min((PH/2)/t,(PW/2-Math.abs(focal.x))/(t*a))*.98;/* frame stays inside the plate at eye level */camera.aspect=a;camera.updateProjectionMatrix();mat.uniforms.amp.value=Math.min(PH*M.amp,z0*.26*M.push)}
+  let zFull=0;function fit(){const a=innerWidth/innerHeight;const t=Math.tan(camera.fov*Math.PI/360);z0=Math.min((PH/2)/t,(PW/2-Math.abs(focal.x))/(t*a))*.98;zFull=Math.max((PH/2)/t,(PW/2)/(t*a))*1.02;/* opening frame: the whole plate, letterboxed *//* frame stays inside the plate at eye level */camera.aspect=a;camera.updateProjectionMatrix();mat.uniforms.amp.value=Math.min(PH*M.amp,z0*.26*M.push)}
   function camAt(p){const e=p;/* linear: the stop tweens supply the easing */const z=z0*(1-M.push*e);if(dmat){const f=M.detail.fade;dmat.uniforms.alpha.value=Math.max(0,Math.min(1,(e-f[0])/(f[1]-f[0])))}const bob=Math.sin(e*Math.PI*7)*PH*.004*(1-e); // eye level = the plate's horizon (fy); straight down the aisle; faint walking bob
-    const hv=z*Math.tan(camera.fov*Math.PI/360);let cy=focal.y*Math.min(1,.7+e*.5);if(hv<PH/2)cy=Math.max(cy,-(PH/2-hv));else cy=0;/* open low enough to show the altar; never past the plate's bottom edge */camera.position.set(0,cy+bob,z);camera.lookAt(0,cy,0);}
+    const t=Math.tan(camera.fov*Math.PI/360);const eye=ee=>{const zz=z0*(1-M.push*ee),hv=zz*t;let c=focal.y*Math.min(1,.7+ee*.5);c=hv<PH/2?Math.max(c,-(PH/2-hv)):0;return[zz,c]};/* eye level down the aisle; never past the plate's bottom edge */let Z=z,CY;if(e<STOPS[1]){const k=e/STOPS[1],[z1,c1]=eye(STOPS[1]);Z=zFull+(z1-zFull)*k;CY=c1*k}else{[Z,CY]=eye(e)}camera.position.set(0,CY+bob*(e<STOPS[1]?e/STOPS[1]:1),Z);camera.lookAt(0,CY,0);}
   function render(){renderer.render(scene,camera)}
   function size(){renderer.setSize(innerWidth,innerHeight,false);fit();camAt(prog.p);render();fx.size()}
   // the spiritual realm: 2D overlay with cursor-revealed Crucified over the Host
