@@ -15,110 +15,136 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Orante">
 <link rel="manifest" href='data:application/manifest+json,{"name":"Orante","short_name":"Orante","display":"standalone","start_url":".","background_color":"%23f7f5f0","theme_color":"%233b2a52"}'>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
 <style>
-/* Layout: month grid as the Ordo page; a fixed "rubric" panel for the chosen day; list and key views below the same bar. */
+/* Orante · Ordo. One serif family, hairline rules, liturgical colour as a thin bar. */
 :root{
-  --bg:#f7f5f0; --panel:#fffdf9; --fg:#1f1b24; --muted:#6a6273; --line:#d9d3c7; --accent:#3b2a52; --accent-fg:#ffffff;
-  --soft:#efeae0; --today:#c9a35b;
-  --l-white:#f3efe6; --l-white-fg:#3a3630; --l-red:#a3241f; --l-green:#2f6b3a; --l-violet:#5a3b7a; --l-rose:#c96a8a; --l-black:#1a1a1a; --l-gold:#b8933b;
+  --bg:#f6f1e8; --panel:#fbf8f2; --fg:#1e1a17; --muted:#7a7064; --line:#e0d7c7; --rule:#cdbfa6; --accent:#3b2a52; --accent-fg:#fff;
+  --soft:#efe8da; --today:#9c7a2e;
+  --l-white:#f1ebdd; --l-white-fg:#3a3630; --l-red:#9e2a25; --l-green:#3b6b45; --l-violet:#5a3b7a; --l-rose:#c57a93; --l-black:#1a1a1a; --l-gold:#b8933b;
   --fast:#8a3b1c; --ind:#1d5c6e;
-  --font-display:"EB Garamond",Georgia,"Times New Roman",serif;
-  --font-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --serif:"EB Garamond",Garamond,"Times New Roman",serif;
+  --display:"Cormorant Garamond","EB Garamond",Garamond,serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#16131b; --panel:#1f1a26; --fg:#ece7dd; --muted:#a69db0; --line:#36303f; --accent:#b9a2d6; --accent-fg:#1a1322; --soft:#272030; --today:#d8b86c;
-  --l-white:#e7e1d4; --l-white-fg:#2b2823; --l-red:#c9443d; --l-green:#4c9a5a; --l-violet:#8d6cb3; --l-rose:#d98aa6; --l-black:#000000; --l-gold:#d4ad55;
+  --bg:#141210; --panel:#1b1815; --fg:#ebe4d6; --muted:#a39888; --line:#2c2722; --rule:#4a4034; --accent:#c9b3e0; --accent-fg:#1a1322; --soft:#221e19; --today:#d8b86c;
+  --l-white:#e7e1d4; --l-white-fg:#2b2823; --l-red:#c9443d; --l-green:#4c9a5a; --l-violet:#8d6cb3; --l-rose:#d98aa6; --l-black:#000; --l-gold:#d4ad55;
   --fast:#e08a63; --ind:#6fc0d6; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#16131b; --panel:#1f1a26; --fg:#ece7dd; --muted:#a69db0; --line:#36303f; --accent:#b9a2d6; --accent-fg:#1a1322; --soft:#272030; --today:#d8b86c;
-  --l-white:#e7e1d4; --l-white-fg:#2b2823; --l-red:#c9443d; --l-green:#4c9a5a; --l-violet:#8d6cb3; --l-rose:#d98aa6; --l-black:#000000; --l-gold:#d4ad55;
+  --bg:#141210; --panel:#1b1815; --fg:#ebe4d6; --muted:#a39888; --line:#2c2722; --rule:#4a4034; --accent:#c9b3e0; --accent-fg:#1a1322; --soft:#221e19; --today:#d8b86c;
+  --l-white:#e7e1d4; --l-white-fg:#2b2823; --l-red:#c9443d; --l-green:#4c9a5a; --l-violet:#8d6cb3; --l-rose:#d98aa6; --l-black:#000; --l-gold:#d4ad55;
   --fast:#e08a63; --ind:#6fc0d6; color-scheme:dark}
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:14px;line-height:1.45}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:16px;line-height:1.5;font-variant-numeric:oldstyle-nums}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 32px;max-width:1280px;margin:0 auto}
-header.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-block:8px 12px;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
-h1{font-family:var(--font-display);font-weight:500;font-size:26px;margin:0;letter-spacing:.01em}
-h1 small{font-family:var(--font-body);font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-left:10px;font-weight:600}
-.nav{display:flex;align-items:center;gap:6px;margin-left:auto;flex-wrap:wrap}
+.wrap{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));padding-block:14px 40px;max-width:1240px;margin:0 auto}
+header.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 22px;padding-block:10px 12px;border-bottom:1px solid var(--rule);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+h1{font-family:var(--display);font-weight:400;font-style:italic;font-size:28px;margin:0;letter-spacing:.14em}
+h1 a{color:inherit;text-decoration:none}
+h1 small{font-family:var(--serif);font-style:italic;font-weight:400;font-size:14px;color:var(--muted);letter-spacing:0;margin-left:14px}
+.nav{display:flex;align-items:baseline;gap:4px 10px;margin-left:auto;flex-wrap:wrap}
 button,select,input{font:inherit;color:var(--fg)}
-.btn{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer;line-height:1.2}
-.btn:hover{border-color:var(--accent)}
+.btn{background:none;border:0;border-bottom:1px solid transparent;border-radius:0;padding:4px 2px;cursor:pointer;line-height:1.2;color:var(--muted)}
+.btn:hover{color:var(--fg)}
+.btn.on{color:var(--fg);border-bottom-color:var(--fg)}
 .btn:focus-visible,select:focus-visible,input:focus-visible,.cell:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.btn.on{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
-select{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
-.month-title{font-family:var(--font-display);font-size:22px;min-width:12ch;text-align:center}
-.views{display:flex;gap:4px}
-main{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;margin-top:14px}
-@media (max-width:960px){main{grid-template-columns:minmax(0,1fr)}}
-.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
-.dow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0;font-weight:600}
-.cell{background:var(--panel);border:1px solid var(--line);border-radius:4px;min-height:92px;padding:5px 6px 6px;cursor:pointer;display:flex;flex-direction:column;gap:3px;position:relative;text-align:left;min-width:0}
-.cell:hover{border-color:var(--accent)}
-.cell.sel{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-.cell.empty{background:transparent;border-color:transparent;cursor:default}
-.cell .d{display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;font-variant-numeric:tabular-nums}
+#prev,#next{font-size:20px;padding:0 6px;color:var(--fg)}
+select{background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:4px 2px;color:var(--muted)}
+.month-title{font-family:var(--display);font-size:28px;font-weight:500;min-width:11ch;text-align:center}
+.views{display:flex;gap:14px;margin-left:10px}
+main{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:28px;margin-top:16px}
+@media (max-width:960px){main{grid-template-columns:minmax(0,1fr);gap:18px}}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.dow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;padding:6px 0;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cell{background:var(--panel);border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);border-top:3px solid transparent;min-height:96px;padding:6px 8px 8px;cursor:pointer;display:flex;flex-direction:column;gap:2px;position:relative;text-align:left;min-width:0;font-family:var(--serif)}
+.cell:hover{background:var(--soft)}
+.cell.sel{background:var(--soft);box-shadow:inset 0 0 0 1px var(--fg)}
+.cell.empty{background:transparent;cursor:default;border-top-color:transparent!important}
+.cell .d{display:flex;align-items:baseline;gap:6px;font-size:15px}
 .cell .d .n{font-weight:500}
 .cell.today .d .n{color:var(--today);font-weight:600}
-.cell .d .cls{font-size:10px;color:var(--muted);margin-left:auto}
-.cell .name{font-family:var(--font-display);font-size:13.5px;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.cell .d .cls{font-size:11px;letter-spacing:.06em;color:var(--muted);margin-left:auto}
+.cell .d .swatch{display:none}
+.cell .name{font-size:14.5px;line-height:1.25;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
 .cell .name.sun{font-weight:600}
-.swatch{width:10px;height:10px;border-radius:2px;border:1px solid rgba(0,0,0,.25);flex:none}
-.tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:auto}
-.tag{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.04em;padding:1px 4px;border-radius:3px;border:1px solid var(--line);color:var(--muted);line-height:1.3}
-.tag.hdo{border-color:var(--accent);color:var(--accent);font-weight:600}
-.tag.fast{border-color:var(--fast);color:var(--fast)}
-.tag.ind{border-color:var(--ind);color:var(--ind)}
-.tag.mark{background:var(--soft)}
-/* liturgical colors */
+.cell.c-white{border-top-color:var(--l-white)}.cell.c-red{border-top-color:var(--l-red)}.cell.c-green{border-top-color:var(--l-green)}.cell.c-violet{border-top-color:var(--l-violet)}.cell.c-rose{border-top-color:var(--l-rose)}.cell.c-black{border-top-color:var(--l-black)}.cell.c-gold{border-top-color:var(--l-gold)}
+.swatch{width:10px;height:10px;border-radius:50%;border:1px solid rgba(0,0,0,.2);flex:none;display:inline-block;vertical-align:middle}
+.tags{display:flex;flex-wrap:wrap;gap:2px 8px;margin-top:auto;font-style:italic;font-size:12px;color:var(--muted)}
+.tag{line-height:1.3}
+.tag.hdo{color:var(--accent);font-style:normal;font-weight:600}
+.tag.fast{color:var(--fast)}
+.tag.ind{color:var(--ind)}
 .sw-white{background:var(--l-white)}.sw-red{background:var(--l-red)}.sw-green{background:var(--l-green)}.sw-violet{background:var(--l-violet)}.sw-rose{background:var(--l-rose)}.sw-black{background:var(--l-black)}.sw-gold{background:var(--l-gold)}
-/* detail panel */
-aside.detail{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;align-self:start;position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);max-height:calc(100vh - 90px);overflow:auto;min-width:0}
-@media (max-width:960px){aside.detail{position:static;max-height:none}}
-.detail h2{font-family:var(--font-display);font-weight:500;font-size:22px;margin:0 0 2px;line-height:1.15;text-wrap:balance}
-.detail .date{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-bottom:8px}
-.band{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:4px;margin:8px 0;font-size:13px}
-.band .lab{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
-.sec{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
-.sec h3{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;font-weight:600}
-.sec p,.sec li{margin:0 0 4px}
+/* day panel */
+aside.detail{padding:4px 0 0 22px;border-left:1px solid var(--rule);align-self:start;position:sticky;top:calc(env(safe-area-inset-top,0px) + 72px);max-height:calc(100vh - 96px);overflow:auto;min-width:0}
+@media (max-width:960px){aside.detail{position:static;max-height:none;border-left:0;padding-left:0;border-top:1px solid var(--rule);padding-top:16px}}
+.detail h2{font-family:var(--display);font-weight:500;font-size:30px;margin:0 0 2px;line-height:1.1;text-wrap:balance}
+.detail .date{font-style:italic;color:var(--muted);margin-bottom:6px}
+.detail .line{display:flex;align-items:center;gap:8px;color:var(--muted);margin-bottom:14px}
+.sec{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.sec h3{font-family:var(--serif);font-variant:small-caps;letter-spacing:.08em;font-weight:500;font-size:15px;color:var(--muted);margin:0 0 6px}
+.sec p,.sec li{margin:0 0 5px}
 .sec ul{margin:0;padding-left:18px}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px}
-.kv b{font-weight:600;color:var(--muted);font-size:12px}
-.pl{color:var(--ind);font-weight:600}
-.fa{color:var(--fast);font-weight:600}
-.ref{font-family:var(--font-mono);font-size:10.5px;color:var(--muted)}
-.note{font-size:12px;color:var(--muted)}
+.sec li::marker{color:var(--rule)}
+.lead{font-size:17px;font-weight:500}
+.pl{color:var(--ind);font-weight:500}
+.fa{color:var(--fast);font-weight:500}
+.ref{font-size:13px;color:var(--muted);font-style:italic}
+.note{font-size:14px;color:var(--muted)}
+.sec a{color:inherit}
 /* list view */
-table.list{width:100%;border-collapse:collapse;font-size:13px}
+table.list{width:100%;border-collapse:collapse;font-size:15px}
 .tablewrap{overflow-x:auto}
-table.list th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line);position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);background:var(--bg)}
-table.list td{padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.list th{text-align:left;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--rule);position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px);background:var(--bg);font-weight:500}
+table.list td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 table.list tr.sun td{background:var(--soft)}
-table.list td.d{font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
-table.list td.nm{font-family:var(--font-display);font-size:14.5px}
+table.list td.d{white-space:nowrap;color:var(--muted)}
+table.list td.nm{font-size:16px}
 table.list tr{cursor:pointer}
 /* key view */
-.key{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px;min-width:0}
-.card h3{font-family:var(--font-display);font-weight:500;font-size:18px;margin:0 0 6px}
+.key{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px 32px}
+.card{min-width:0}
+.card h3{font-family:var(--display);font-weight:500;font-size:22px;margin:0 0 6px}
 .card ul{padding-left:18px;margin:0}
 .card li{margin-bottom:3px}
-.sw-list{display:flex;flex-wrap:wrap;gap:8px}
+.sw-list{display:flex;flex-wrap:wrap;gap:8px 14px}
 .sw-list span{display:inline-flex;align-items:center;gap:6px}
-.filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:13px}
-.filters label{display:inline-flex;align-items:center;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer}
-.search{min-width:200px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
-.hint{font-size:12px;color:var(--muted);margin-top:6px}
-@media (prefers-reduced-motion:no-preference){.cell{transition:border-color .12s}}
+.filters{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;margin-top:10px;font-size:14px;color:var(--muted)}
+.filters label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.filters input{accent-color:var(--accent)}
+.search{min-width:220px;background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:4px 0;font-style:italic;color:var(--fg)}
+.search::placeholder{color:var(--muted)}
+.hint{font-size:14px;color:var(--muted);margin-top:6px;font-style:italic}
+@media (prefers-reduced-motion:no-preference){.cell{transition:background .12s}}
+/* phones: the month as a ledger, one row per day */
+@media (max-width:600px){
+.grid{display:block;border:0}
+.dow,.cell.empty{display:none}
+.cell{width:100%;display:grid;grid-template-columns:40px minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:10px;align-items:baseline;min-height:0;padding:8px 8px 8px 10px;border-right:0;border-top:0;border-left:3px solid transparent;border-bottom:1px solid var(--line)}
+.cell.c-white{border-left-color:var(--l-white)}.cell.c-red{border-left-color:var(--l-red)}.cell.c-green{border-left-color:var(--l-green)}.cell.c-violet{border-left-color:var(--l-violet)}.cell.c-rose{border-left-color:var(--l-rose)}.cell.c-black{border-left-color:var(--l-black)}.cell.c-gold{border-left-color:var(--l-gold)}
+.cell .d{grid-row:1/3;flex-direction:column;align-items:flex-start;gap:0}
+.cell .d .n{font-size:20px;line-height:1}
+.cell .d .cls{margin-left:0;font-size:11px}
+.cell .name{grid-column:2;font-size:16px;-webkit-line-clamp:2}
+.cell .tags{grid-column:2/4;margin-top:2px}
+.cell.sel{box-shadow:inset 3px 0 0 var(--fg)}
+h1{font-size:24px}h1 small{display:block;margin:2px 0 0}
+.month-title{font-size:22px;min-width:9ch}
+.views{margin-left:0;width:100%;gap:18px}
+}
+
 </style>
+</head>
+<body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Orante">
+<link rel="manifest" href='data:application/manifest+json,{"name":"Orante","short_name":"Orante","display":"standalone","start_url":".","background_color":"%23f7f5f0","theme_color":"%233b2a52"}'>
 
 <div class="wrap">
 <header class="top">
-  <h1>Orante <small>Ordo 1962 · Missale Romanum · private use</small></h1>
+  <h1><a href="/">Orante</a> <small>Ordo · 1962 Missal</small></h1>
   <div class="nav">
     <select id="year" aria-label="Year"><option value="2026">2026</option><option value="2027">2027 (draft)</option></select>
     <button class="btn" id="prev" aria-label="Previous month">‹</button>
@@ -127,17 +153,17 @@ table.list tr{cursor:pointer}
     <button class="btn" id="todayBtn">Today</button>
     <div class="views">
       <button class="btn on" data-view="month">Month</button>
-      <button class="btn" data-view="list">Year list</button>
-      <button class="btn" data-view="key">Key &amp; rules</button>
+      <button class="btn" data-view="list">Year</button>
+      <button class="btn" data-view="key">Key</button>
     </div>
   </div>
 </header>
 
 <div class="filters">
-  <input class="search" id="q" placeholder="Find a feast (e.g. Ember, Pius X, Vigil)" aria-label="Find a feast">
-  <label><input type="checkbox" id="optUS" checked> US proper feasts</label>
-  <label><input type="checkbox" id="optStrict"> Pre-1917 vigil fasts (stricter)</label>
-  <label><input type="checkbox" id="optDaily"> Show daily indulgences on every day</label>
+  <input class="search" id="q" placeholder="Find a feast" aria-label="Find a feast">
+  <label><input type="checkbox" id="optUS" checked> United States</label>
+  <label><input type="checkbox" id="optStrict"> Older vigil fasts</label>
+  <label><input type="checkbox" id="optDaily"> Daily indulgences</label>
 </div>
 <div class="hint" id="hint"></div>
 
@@ -784,15 +810,15 @@ const clsLabel=c=>c===1?"I cl.":c===2?"II cl.":c===3?"III cl.":c===4?"IV cl.":""
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function tagsFor(r){
   const t=[];
-  if(r.univHDO&&!r.isSunday)t.push('<span class="tag hdo">HDO'+(r.usHDO?"":"·univ")+'</span>');
-  if(r.fast==="fastabs")t.push('<span class="tag fast">FAST+ABS</span>');
-  else if(r.fast==="fast")t.push('<span class="tag fast">FAST</span>');
-  else if(r.fast==="abs")t.push('<span class="tag fast">ABS</span>');
-  if(r.ind.length)t.push('<span class="tag ind">PLENARY</span>');
-  if(r.ember)t.push('<span class="tag mark">EMBER</span>');
-  if(r.rogation)t.push('<span class="tag mark">ROGATION</span>');
-  if(r.vigil)t.push('<span class="tag mark">VIGIL</span>');
-  if(r.octave)t.push('<span class="tag mark">OCT·'+r.octave.slice(0,4).toUpperCase()+'</span>');
+  if(r.univHDO&&!r.isSunday)t.push('<span class="tag hdo">Holy day'+(r.usHDO?"":" (univ.)")+'</span>');
+  if(r.fast==="fastabs")t.push('<span class="tag fast">fast &amp; abstinence</span>');
+  else if(r.fast==="fast")t.push('<span class="tag fast">fast</span>');
+  else if(r.fast==="abs")t.push('<span class="tag fast">abstinence</span>');
+  if(r.ind.length)t.push('<span class="tag ind">plenary</span>');
+  if(r.ember)t.push('<span class="tag">Ember</span>');
+  if(r.rogation)t.push('<span class="tag">Rogation</span>');
+  if(r.vigil)t.push('<span class="tag">vigil</span>');
+  if(r.octave)t.push('<span class="tag">octave</span>');
   return t.join("");
 }
 function renderMonth(){
@@ -805,8 +831,9 @@ function renderMonth(){
     const r=day(dt);const isT=iso(dt)===iso(today);const sel=iso(dt)===state.sel;
     const hay=(r.cel.name+" "+r.comms.join(" ")+" "+r.markers.join(" ")).toLowerCase();
     const dim=q&&!hay.includes(q)?' style="opacity:.35"':'';
-    h+='<button class="cell'+(isT?" today":"")+(sel?" sel":"")+'" data-d="'+iso(dt)+'"'+dim+'><div class="d"><span class="swatch sw-'+r.color+'"></span><span class="n">'+d+'</span><span class="cls">'+clsLabel(r.cel.cls)+'</span></div><div class="name'+(r.isSunday?" sun":"")+'">'+esc(r.cel.name)+'</div><div class="tags">'+tagsFor(r)+'</div></button>';
+    h+='<button class="cell c-'+r.color+(isT?" today":"")+(sel?" sel":"")+'" data-d="'+iso(dt)+'"'+dim+'><div class="d"><span class="swatch sw-'+r.color+'"></span><span class="n">'+d+'</span><span class="cls">'+clsLabel(r.cel.cls)+'</span></div><div class="name'+(r.isSunday?" sun":"")+'">'+esc(r.cel.name)+'</div><div class="tags">'+tagsFor(r)+'</div></button>';
   }
+  const n=first.getDay()+new Date(state.year,state.month+1,0).getDate();for(let i=n;i%7;i++)h+='<div class="cell empty"></div>';
   g.innerHTML=h;
 }
 function renderList(){
@@ -818,41 +845,41 @@ function renderList(){
   }
   $("#list").innerHTML=h+'</tbody>';
 }
+let SAINTS=null;fetch("/saints.json").then(r=>r.ok?r.json():[]).then(a=>{SAINTS={};a.forEach(x=>SAINTS[x.key]=x);if(state.view!=="key")renderDetail()}).catch(()=>{SAINTS={}});
 function renderDetail(){
   const dt=new Date(state.sel+"T12:00:00");const r=day(dt);
-  const colorBand='<div class="band" style="background:var(--soft)"><span class="swatch sw-'+r.color+'"></span><span class="lab">Color</span> '+r.color+' &nbsp;·&nbsp; <span class="lab">Rank</span> '+(clsLabel(r.cel.cls)||"—")+' &nbsp;·&nbsp; <span class="lab">Season</span> '+r.season+'</div>';
-  let h='<h2>'+esc(r.cel.name)+'</h2><div class="date">'+DOW[r.dow]+', '+dt.getDate()+' '+MON[dt.getMonth()]+' '+dt.getFullYear()+(r.transferredIn?' · transferred from '+r.transferredIn:'')+'</div>'+colorBand;
-  // Missal
-  h+='<div class="sec"><h3>At Mass (1962 Missal)</h3><div class="kv">';
-  h+='<b>Mass</b><span>'+esc(r.massLine)+'</span>';
-  if(r.choice)h+='<b>Choice</b><span>'+esc(r.choice)+'</span>';
-  h+='<b>Commem.</b><span>'+(r.comms.length?esc(r.comms.join("; ")):"none")+'</span>';
-  h+='<b>Gloria</b><span>'+(r.gloria?"yes":"no")+'</span><b>Credo</b><span>'+(r.credo?"yes":"no")+'</span><b>Preface</b><span>'+esc(r.pref)+'</span>';
-  if(r.omitted.length)h+='<b>Not said</b><span>'+esc(r.omitted.join("; "))+'</span>';
-  h+='</div></div>';
-  // Obligation
-  h+='<div class="sec"><h3>Obligation</h3>';
-  if(r.isSunday)h+='<p><b>Sunday:</b> Mass obligatory; servile work forbidden.</p>';
-  else if(r.univHDO)h+='<p><b>Holy day of obligation</b> (1917 Code list of 10)'+(r.usHDO?' — <b>binding in the USA</b>.':' — <span class="note">not binding in the USA (US keeps 6).</span>')+'</p>';
-  else h+='<p class="note">No obligation.</p>';
-  h+='</div>';
-  // Fast
-  h+='<div class="sec"><h3>Fast &amp; abstinence (1917 Code)</h3>';
-  h+=r.fast?'<p class="fa">'+FASTLAW[r.fast]+'</p>':'<p class="note">No fast or abstinence.</p>';
-  if(r.fast==="fastabs"||r.fast==="fast")h+='<p class="note">Fast: ages 21–59; one full meal, two small collations; no eating between meals. Abstinence: from age 7; no flesh meat or broth. Eggs and dairy permitted.</p>';
-  r.fastNotes.forEach(n=>h+='<p class="note">'+esc(n)+'</p>');
-  h+='</div>';
-  // Marks
-  const marks=[];if(r.ember)marks.push("Ember day (fast and abstinence; ordinations)");if(r.rogation)marks.push(r.markers.join("; ")||"Rogation day");if(r.vigil)marks.push("Vigil");if(r.octave)marks.push("Within the Octave of "+r.octave);
-  if(marks.length||r.notes.length){h+='<div class="sec"><h3>Marks</h3><ul>'+marks.map(x=>'<li>'+esc(x)+'</li>').join("")+r.notes.map(x=>'<li class="note">'+esc(x)+'</li>').join("")+'</ul></div>'}
-  // Indulgences
-  h+='<div class="sec"><h3>Indulgences</h3>';
-  if(r.ind.length){h+='<ul>'+r.ind.map(x=>'<li><span class="pl">Plenary</span> — '+esc(x[1])+' <span class="ref">'+esc(x[2])+'</span></li>').join("")+'</ul>';}
-  else h+='<p class="note">No date-specific grant.</p>';
-  if(state.daily||!r.ind.length){h+='<p class="note" style="margin-top:6px"><b>Any day, plenary:</b></p><ul>'+DAILY_PLEN.map(x=>'<li class="note">'+esc(x[0])+' <span class="ref">'+esc(x[1])+'</span></li>').join("")+'</ul>';}
-  h+='<p class="note" style="margin-top:6px">'+PLEN_COND+'</p>';
-  h+='<p class="note"><b>Partial, any day:</b> '+esc(DAILY_PART.join(" "))+'</p>';
-  h+='</div>';
+  const cap=w=>w.charAt(0).toUpperCase()+w.slice(1);
+  let h='<h2>'+esc(r.cel.name)+'</h2><div class="date">'+DOW[r.dow]+', '+dt.getDate()+' '+MON[dt.getMonth()]+' '+dt.getFullYear()+(r.transferredIn?' · transferred from '+esc(r.transferredIn):'')+'</div>';
+  h+='<div class="line"><span class="swatch sw-'+r.color+'"></span>'+cap(r.color)+' · '+(clsLabel(r.cel.cls)||"—")+' · '+esc(r.season)+'</div>';
+  // 1. What binds today: obligation, fast, marks
+  const today=[];
+  if(r.isSunday)today.push('<li class="lead">Sunday: Mass obligatory; rest from servile work.</li>');
+  else if(r.univHDO)today.push('<li class="lead">Holy day of obligation'+(r.usHDO?', binding in the United States.':' on the universal list; <span class="note">not binding in the United States.</span>')+'</li>');
+  if(r.fast)today.push('<li class="fa">'+FASTLAW[r.fast]+'</li>');
+  if(r.ember)today.push('<li>Ember day: fast and abstinence; prayer for ordinations.</li>');
+  if(r.rogation)today.push('<li>'+esc(r.markers.join("; ")||"Rogation day")+'</li>');
+  if(r.vigil)today.push('<li>Vigil.</li>');
+  if(r.octave)today.push('<li>Within the Octave of '+esc(r.octave)+'.</li>');
+  r.notes.forEach(n=>today.push('<li class="note">'+esc(n)+'</li>'));
+  if(today.length){h+='<div class="sec"><h3>Today</h3><ul>'+today.join("")+'</ul>';
+    if(r.fast==="fastabs"||r.fast==="fast")h+='<p class="note">Fast binds ages 21–59: one full meal and two small collations. Abstinence binds from age 7: no flesh meat or broth; eggs and dairy allowed.</p>';
+    r.fastNotes.forEach(n=>h+='<p class="note">'+esc(n)+'</p>');h+='</div>'}
+  // 2. At Mass
+  const mass=['<li>'+esc(r.massLine)+'</li>'];
+  if(r.choice)mass.push('<li>'+esc(r.choice)+'</li>');
+  if(r.comms.length)mass.push('<li>Commemoration'+(r.comms.length>1?"s":"")+': '+esc(r.comms.join("; "))+'</li>');
+  mass.push('<li>'+(r.gloria?"Gloria":"No Gloria")+'; '+(r.credo?"Credo":"no Credo")+'; preface '+esc(r.pref.replace(/^Preface of /,"of ").replace(/^Common$/,"common"))+'.</li>');
+  if(r.omitted.length)mass.push('<li>Not said: '+esc(r.omitted.join("; "))+'.</li>');
+  h+='<div class="sec"><h3>At Mass</h3><ul>'+mass.join("")+'</ul></div>';
+  // 3. Patron and prayer (2026 data)
+  if(SAINTS&&dt.getFullYear()===2026){const rows=[];[r.cel.name,...r.comms].forEach(n=>{const x=SAINTS[n];if(!x)return;const who=n.replace(/,.*$/,"");
+      if(x.patron_of)rows.push('<li>'+esc(who)+': patron of '+esc(x.patron_of)+'.</li>');
+      if(x.prayer_url)rows.push('<li><a href="'+esc(x.prayer_url)+'" target="_blank" rel="noopener">'+esc(x.prayer_title||"Prayer")+'</a></li>')});
+    if(rows.length)h+='<div class="sec"><h3>Patronage &amp; prayer</h3><ul>'+rows.join("")+'</ul></div>'}
+  // 4. Indulgences
+  const ind=r.ind.map(x=>'<li><span class="pl">Plenary</span>: '+esc(x[1])+' <span class="ref">'+esc(x[2])+'</span></li>');
+  if(state.daily)DAILY_PLEN.forEach(x=>ind.push('<li class="note">Any day: '+esc(x[0])+' <span class="ref">'+esc(x[1])+'</span></li>'));
+  if(ind.length){h+='<div class="sec"><h3>Indulgences</h3><ul>'+ind.join("")+'</ul><p class="note">'+PLEN_COND+'</p></div>'}
   $("#detail").innerHTML=h;
 }
 function renderKey(){
