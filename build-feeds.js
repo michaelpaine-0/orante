@@ -31,6 +31,11 @@ function cal(name,desc,color,events){
   return L.map(fold).join("\r\n")+"\r\n";
 }
 
+/* saints.json: patronage + one prayer/litany link per celebration (2026 only, per request) */
+let SAINTS={};try{JSON.parse(fs.readFileSync(path.join(__dirname,"saints.json"),"utf8")).forEach(x=>{SAINTS[x.key]=x})}catch(e){}
+const saintLines=(names,y)=>{if(y!==2026)return[];const out=[];names.forEach(n=>{const x=SAINTS[n];if(!x)return;const who=n.replace(/,.*$/,"");
+  if(x.patron_of)out.push(who+" · patron of "+x.patron_of);
+  if(x.prayer_url)out.push((x.prayer_title||"Prayer")+": "+x.prayer_url)});return out};
 const feasts=[],fasts=[],holy=[],ind=[],all=[];
 years.forEach(y=>{
   const Y=E.buildYear(y);E.computeTransfers(Y,y,opts);
@@ -47,7 +52,8 @@ years.forEach(y=>{
       marks.length?"Marks: "+marks.join("; "):null,
       r.notes.length?r.notes.join(" "):null,
       r.fast?"Fast: "+E.FASTLAW[r.fast]:null,
-      r.univHDO&&!r.isSunday?"Holy day of obligation"+(r.usHDO?" (US)":" (universal list; not US)"):null
+      r.univHDO&&!r.isSunday?"Holy day of obligation"+(r.usHDO?" (US)":" (universal list; not US)"):null,
+      ...saintLines([r.cel.name,...r.comms],y)
     ].filter(Boolean).join("\n");
     const fe={uid:"feast-"+r.iso+"@orante",dt,summary:sw+" "+r.cel.name+(r.cel.cls<=2&&!r.isSunday?" ("+cls(r.cel.cls).replace(" class","")+")":""),desc,cat:"Orante/Feasts"};
     feasts.push(fe);all.push(fe);
