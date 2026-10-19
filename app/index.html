@@ -88,6 +88,7 @@ aside.detail{padding:4px 0 0 22px;border-left:1px solid var(--rule);align-self:s
 .sec ul{margin:0;padding-left:18px}
 .sec li::marker{color:var(--rule)}
 .lead{font-size:17px;font-weight:500}
+.lede{font-size:16px;line-height:1.5;margin:-4px 0 10px;color:var(--fg)}
 .pl{color:var(--ind);font-weight:500}
 .fa{color:var(--fast);font-weight:500}
 .ref{font-size:13px;color:var(--muted);font-style:italic}
@@ -851,6 +852,7 @@ function renderDetail(){
   const cap=w=>w.charAt(0).toUpperCase()+w.slice(1);
   let h='<h2>'+esc(r.cel.name)+'</h2><div class="date">'+DOW[r.dow]+', '+dt.getDate()+' '+MON[dt.getMonth()]+' '+dt.getFullYear()+(r.transferredIn?' · transferred from '+esc(r.transferredIn):'')+'</div>';
   h+='<div class="line"><span class="swatch sw-'+r.color+'"></span>'+cap(r.color)+' · '+(clsLabel(r.cel.cls)||"—")+' · '+esc(r.season)+'</div>';
+  const sx=(SAINTS&&dt.getFullYear()===2026)?SAINTS[r.cel.name]:null;if(sx&&sx.blurb)h+='<p class="lede">'+esc(sx.blurb)+'</p>';
   // 1. What binds today: obligation, fast, marks
   const today=[];
   if(r.isSunday)today.push('<li class="lead">Sunday: Mass obligatory; rest from servile work.</li>');
@@ -876,7 +878,11 @@ function renderDetail(){
       if(x.patron_of)rows.push('<li>'+esc(who)+': patron of '+esc(x.patron_of)+'.</li>');
       if(x.prayer_url)rows.push('<li><a href="'+esc(x.prayer_url)+'" target="_blank" rel="noopener">'+esc(x.prayer_title||"Prayer")+'</a></li>')});
     if(rows.length)h+='<div class="sec"><h3>Patronage &amp; prayer</h3><ul>'+rows.join("")+'</ul></div>'}
-  // 4. Indulgences
+  // 4. Pray the day (Divinum Officium, 1960 rubrics)
+  const DO="https://www.divinumofficium.com/cgi-bin/",DOV="&version=Rubrics%201960%20-%201960&lang2=English",dd=String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0")+"-"+dt.getFullYear();
+  const L=(t,u)=>'<a href="'+u+'" target="_blank" rel="noopener">'+t+'</a>';
+  h+='<div class="sec"><h3>Pray the day</h3><ul><li>'+L("Mass propers",DO+"missa/Pmissa.pl?date1="+dd+"&command=prayMissa"+DOV)+' <span class="ref">Divinum Officium</span></li><li>'+["Matutinum|Matins","Laudes|Lauds","Prima|Prime","Tertia|Terce","Sexta|Sext","Nona|None","Vesperae|Vespers","Completorium|Compline"].map(x=>{const [c,t]=x.split("|");return L(t,DO+"horas/Pofficium.pl?date1="+dd+"&command=pray"+c+DOV)}).join(" · ")+'</li></ul></div>';
+  // 5. Indulgences
   const ind=r.ind.map(x=>'<li><span class="pl">Plenary</span>: '+esc(x[1])+' <span class="ref">'+esc(x[2])+'</span></li>');
   if(state.daily)DAILY_PLEN.forEach(x=>ind.push('<li class="note">Any day: '+esc(x[0])+' <span class="ref">'+esc(x[1])+'</span></li>'));
   if(ind.length){h+='<div class="sec"><h3>Indulgences</h3><ul>'+ind.join("")+'</ul><p class="note">'+PLEN_COND+'</p></div>'}

@@ -33,7 +33,14 @@ function cal(name,desc,color,events){
 
 /* saints.json: patronage + one prayer/litany link per celebration (2026 only, per request) */
 let SAINTS={};try{JSON.parse(fs.readFileSync(path.join(__dirname,"saints.json"),"utf8")).forEach(x=>{SAINTS[x.key]=x})}catch(e){}
+/* Divinum Officium: Mass propers and the Hours for the day, 1960 rubrics, Latin with English */
+const DO="https://www.divinumofficium.com/cgi-bin/",DOV="&version=Rubrics%201960%20-%201960&lang2=English";
+const doDate=dt=>String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0")+"-"+dt.getFullYear();
+const doMass=dt=>DO+"missa/Pmissa.pl?date1="+doDate(dt)+"&command=prayMissa"+DOV;
+const doHour=(dt,h)=>DO+"horas/Pofficium.pl?date1="+doDate(dt)+"&command=pray"+h+DOV;
+const prayLines=dt=>["Mass propers (Divinum Officium): "+doMass(dt),"Lauds: "+doHour(dt,"Laudes"),"Vespers: "+doHour(dt,"Vesperae"),"Compline: "+doHour(dt,"Completorium")];
 const saintLines=(names,y)=>{if(y!==2026)return[];const out=[];names.forEach(n=>{const x=SAINTS[n];if(!x)return;const who=n.replace(/,.*$/,"");
+  if(x.blurb)out.push(x.blurb);
   if(x.patron_of)out.push(who+" · patron of "+x.patron_of);
   if(x.prayer_url)out.push((x.prayer_title||"Prayer")+": "+x.prayer_url)});return out};
 const feasts=[],fasts=[],holy=[],ind=[],all=[];
@@ -53,7 +60,8 @@ years.forEach(y=>{
       r.notes.length?r.notes.join(" "):null,
       r.fast?"Fast: "+E.FASTLAW[r.fast]:null,
       r.univHDO&&!r.isSunday?"Holy day of obligation"+(r.usHDO?" (US)":" (universal list; not US)"):null,
-      ...saintLines([r.cel.name,...r.comms],y)
+      ...saintLines([r.cel.name,...r.comms],y),
+      ...prayLines(dt)
     ].filter(Boolean).join("\n");
     const fe={uid:"feast-"+r.iso+"@orante",dt,summary:sw+" "+r.cel.name+(r.cel.cls<=2&&!r.isSunday?" ("+cls(r.cel.cls).replace(" class","")+")":""),desc,cat:"Orante/Feasts"};
     feasts.push(fe);all.push(fe);
