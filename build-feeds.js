@@ -36,9 +36,13 @@ let SAINTS={};try{JSON.parse(fs.readFileSync(path.join(__dirname,"saints.json"),
 /* Divinum Officium: Mass propers and the Hours for the day, 1960 rubrics, Latin with English */
 const DO="https://www.divinumofficium.com/cgi-bin/",DOV="&version=Rubrics%201960%20-%201960&lang2=English";
 const doDate=dt=>String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0")+"-"+dt.getFullYear();
-const doMass=dt=>DO+"missa/Pmissa.pl?date1="+doDate(dt)+"&command=prayMissa"+DOV;
+const doMass=dt=>DO+"missa/missa.pl?date="+doDate(dt)+"&date1="+doDate(dt)+"&command=prayMissa"+DOV;
 const doHour=(dt,h)=>DO+"horas/Pofficium.pl?date1="+doDate(dt)+"&command=pray"+h+DOV;
 const prayLines=dt=>["Mass propers (Divinum Officium): "+doMass(dt),"Lauds: "+doHour(dt,"Laudes"),"Vespers: "+doHour(dt,"Vesperae"),"Compline: "+doHour(dt,"Completorium")];
+/* Novus Ordo (USCCB) for the same day, so Mass-goers can see both calendars */
+let NOVUS={};try{NOVUS=JSON.parse(fs.readFileSync(path.join(__dirname,"novus-2026.json"),"utf8"))}catch(e){}
+const novusLines=iso=>{const n=NOVUS[iso];if(!n)return[];const cap=w=>w?w.charAt(0).toUpperCase()+w.slice(1):"";const L=["Novus Ordo (USCCB): "+n.name+" · "+n.rank+" · "+n.color+(n.opt.length?" · optional: "+n.opt.join("; "):"")];
+  if(n.hdo)L.push("Novus Ordo: holy day of obligation (USA).");if(n.note)L.push("Novus Ordo: "+n.note);if(n.fast)L.push("Novus Ordo: "+n.fast);return L};
 const saintLines=(names,y)=>{if(y!==2026)return[];const out=[];names.forEach(n=>{const x=SAINTS[n];if(!x)return;const who=n.replace(/,.*$/,"");
   if(x.blurb)out.push(x.blurb);
   if(x.patron_of)out.push(who+" · patron of "+x.patron_of);
@@ -61,7 +65,8 @@ years.forEach(y=>{
       r.fast?"Fast: "+E.FASTLAW[r.fast]:null,
       r.univHDO&&!r.isSunday?"Holy day of obligation"+(r.usHDO?" (US)":" (universal list; not US)"):null,
       ...saintLines([r.cel.name,...r.comms],y),
-      ...prayLines(dt)
+      ...prayLines(dt),
+      ...novusLines(r.iso)
     ].filter(Boolean).join("\n");
     const fe={uid:"feast-"+r.iso+"@orante",dt,summary:sw+" "+r.cel.name+(r.cel.cls<=2&&!r.isSunday?" ("+cls(r.cel.cls).replace(" class","")+")":""),desc,cat:"Orante/Feasts"};
     feasts.push(fe);all.push(fe);

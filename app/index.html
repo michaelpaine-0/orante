@@ -846,6 +846,7 @@ function renderList(){
   }
   $("#list").innerHTML=h+'</tbody>';
 }
+let NOVUS=null;fetch("/novus-2026.json").then(r=>r.ok?r.json():{}).then(j=>{NOVUS=j;if(state.view!=="key")renderDetail()}).catch(()=>{NOVUS={}});
 let SAINTS=null;fetch("/saints.json").then(r=>r.ok?r.json():[]).then(a=>{SAINTS={};a.forEach(x=>SAINTS[x.key]=x);if(state.view!=="key")renderDetail()}).catch(()=>{SAINTS={}});
 function renderDetail(){
   const dt=new Date(state.sel+"T12:00:00");const r=day(dt);
@@ -873,6 +874,13 @@ function renderDetail(){
   mass.push('<li>'+(r.gloria?"Gloria":"No Gloria")+'; '+(r.credo?"Credo":"no Credo")+'; preface '+esc(r.pref.replace(/^Preface of /,"of ").replace(/^Common$/,"common"))+'.</li>');
   if(r.omitted.length)mass.push('<li>Not said: '+esc(r.omitted.join("; "))+'.</li>');
   h+='<div class="sec"><h3>At Mass</h3><ul>'+mass.join("")+'</ul></div>';
+  // 2b. Novus Ordo (USCCB) for the same day
+  const nv=NOVUS&&NOVUS[state.sel];if(nv){const rows=['<li>'+esc(nv.name)+' <span class="ref">'+esc(nv.rank)+(nv.color?' · '+esc(nv.color):'')+'</span></li>'];
+    if(nv.opt.length)rows.push('<li>Optional: '+esc(nv.opt.join("; "))+'</li>');
+    if(nv.hdo)rows.push('<li class="lead">Holy day of obligation (USA).</li>');
+    if(nv.note)rows.push('<li class="note">'+esc(nv.note)+'</li>');
+    if(nv.fast)rows.push('<li class="fa">'+esc(nv.fast)+'</li>');
+    h+='<div class="sec"><h3>Novus Ordo <span class="ref">USCCB</span></h3><ul>'+rows.join("")+'</ul></div>'}
   // 3. Patron and prayer (2026 data)
   if(SAINTS&&dt.getFullYear()===2026){const rows=[];[r.cel.name,...r.comms].forEach(n=>{const x=SAINTS[n];if(!x)return;const who=n.replace(/,.*$/,"");
       if(x.patron_of)rows.push('<li>'+esc(who)+': patron of '+esc(x.patron_of)+'.</li>');
@@ -881,7 +889,7 @@ function renderDetail(){
   // 4. Pray the day (Divinum Officium, 1960 rubrics)
   const DO="https://www.divinumofficium.com/cgi-bin/",DOV="&version=Rubrics%201960%20-%201960&lang2=English",dd=String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0")+"-"+dt.getFullYear();
   const L=(t,u)=>'<a href="'+u+'" target="_blank" rel="noopener">'+t+'</a>';
-  h+='<div class="sec"><h3>Pray the day</h3><ul><li>'+L("Mass propers",DO+"missa/Pmissa.pl?date1="+dd+"&command=prayMissa"+DOV)+' <span class="ref">Divinum Officium</span></li><li>'+["Matutinum|Matins","Laudes|Lauds","Prima|Prime","Tertia|Terce","Sexta|Sext","Nona|None","Vesperae|Vespers","Completorium|Compline"].map(x=>{const [c,t]=x.split("|");return L(t,DO+"horas/Pofficium.pl?date1="+dd+"&command=pray"+c+DOV)}).join(" · ")+'</li></ul></div>';
+  h+='<div class="sec"><h3>Pray the day</h3><ul><li>'+L("Mass propers",DO+"missa/missa.pl?date="+dd+"&date1="+dd+"&command=prayMissa"+DOV)+' <span class="ref">Divinum Officium</span></li><li>'+["Matutinum|Matins","Laudes|Lauds","Prima|Prime","Tertia|Terce","Sexta|Sext","Nona|None","Vesperae|Vespers","Completorium|Compline"].map(x=>{const [c,t]=x.split("|");return L(t,DO+"horas/Pofficium.pl?date1="+dd+"&command=pray"+c+DOV)}).join(" · ")+'</li></ul></div>';
   // 5. Indulgences
   const ind=r.ind.map(x=>'<li><span class="pl">Plenary</span>: '+esc(x[1])+' <span class="ref">'+esc(x[2])+'</span></li>');
   if(state.daily)DAILY_PLEN.forEach(x=>ind.push('<li class="note">Any day: '+esc(x[0])+' <span class="ref">'+esc(x[1])+'</span></li>'));
